@@ -7,13 +7,14 @@ var theta = 0;
 
 
 function update() {
-	theta+=0.05;
-	player.node.Pos.Y += Math.sin(theta);
-	camPos = player.node.Pos.clone();
-    camPos.X += 21;
-    camPos.Y = 30;
-    scene.getActiveCamera().Pos = camPos;
-    camAnimator.lookAt(player.node.Pos);
+	//theta+=0.05;
+	//player.node.Pos.X += 0.5 * Math.sin(theta);
+	//camPos = player.node.Pos.clone();
+    //camPos.X = 21;
+    //camPos.Y = 30;
+    //scene.getActiveCamera().Pos = camPos;
+    //camAnimator.lookAt(player.node.Pos);
+	player.update();
 }
 
 // this is called when loading the 3d scene has finished
