@@ -1,5 +1,5 @@
 //var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/game_scene.ccbjs');
-var engine = new CL3D.CopperLicht('3darea', true, 60); 
+var engine = new CL3D.CopperLicht('3darea', true, 60,true); 
 	engine.load('copperlichtdata/game_scene.ccbjs');
 var camera, camAnimator;
 var scene;
@@ -33,6 +33,7 @@ engine.OnLoadingComplete = function () {
         scene.getActiveCamera().Pos = camPos;
 
         camAnimator = new CL3D.AnimatorCameraFPS(scene.getActiveCamera(), engine);
+		//scene.getActiveCamera().setOrthogonal(true);
         scene.getActiveCamera().addAnimator(camAnimator);
         camAnimator.lookAt(player.node.Pos);
 		

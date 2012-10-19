@@ -1,0 +1,11 @@
+1. orthogonal camera
+2. camera motion when mouse goes near the edges
+	|- boundry checks (mayeb use collision detection)
+3. level.js ***
+4. add life to everything.. figure out how to show it
+5. attack : arrow
+    |- collision detection
+    |-
+6. selected ojects - shader
+6. 2D overlay :
+7. city

@@ -20,7 +20,8 @@ function hideSceneObjects() {
 }
 
 function onClickWorld(event) {
-	lastClickedButton = event.button;
+	//alert("clickworld" + event.button);
+	clickedButton = event.button;
 	x = engine.getMousePosXFromEvent(event);
 	y = engine.getMousePosYFromEvent(event);
 	target = engine.get3DPositionFrom2DPosition(x,y);
@@ -33,7 +34,9 @@ function onClickWorld(event) {
 	//player.node.Pos.X = cpoint.X;
 	//player.node.Pos.Z = cpoint.Z;
 	
-	selectedObject.onClick();
+	if ( selectedObject ) {
+		selectedObject.onClick();
+	}
 }
 
 function initWorld() {
@@ -46,5 +49,7 @@ function initWorld() {
 	floorPlane = new FloorPlane();
 	scene.getRootSceneNode().addChild(floorPlane);
 	
-	selectedObject = player;
+	//selectedObject = player;
 }
+
+
