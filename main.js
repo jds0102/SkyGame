@@ -1,9 +1,8 @@
-var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/index.ccbjs');
-var player = null, asteroid, planeNode;
+var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/game_scene.ccbjs');
 var camera, camAnimator;
 var scene;
 var theta = 0;
-var ASTEROID = 'sphereMesh1', AIRSHIP = 'cubeMesh1', PLANE = 'planeMesh1';
+
 var lastClickedButton = -1;
 
 function update() {
@@ -18,20 +17,13 @@ function update() {
 
 // this is called when loading the 3d scene has finished
 engine.OnLoadingComplete = function () {
-	setInterval(update, 60);
     scene = engine.getScene();
     if (scene) {
+		hideSceneObjects();
+        initWorld();
 		
-        player = new Airship(AIRSHIP, scene);
-        player.node.Pos = new CL3D.Vect3d(0, 5, 25);
-		planeNode = scene.getSceneNodeFromName(PLANE);
         // also, force the 3d engine to update the scene every frame
         scene.setRedrawMode(CL3D.Scene.REDRAW_EVERY_FRAME);
-
-        //first hide the asteroid that we will be cloning
-        scene.getSceneNodeFromName(ASTEROID).Visible = false;
-
-        asteroid = new Asteroid(ASTEROID, new CL3D.Vect3d(10, 0, 10));
 
         camPos = player.node.Pos.clone();
         camPos.X += 21;
@@ -42,21 +34,8 @@ engine.OnLoadingComplete = function () {
         scene.getActiveCamera().addAnimator(camAnimator);
         camAnimator.lookAt(player.node.Pos);
 		
-		worldAnimator = new CL3D.Animator();
-		worldAnimator.onMouseDown = function(event) {
-			lastClickedButton = event.button;
-			x = engine.getMousePosXFromEvent(event);
-			y = engine.getMousePosYFromEvent(event);
-			target = engine.get3DPositionFrom2DPosition(x,y);
-			c = scene.getActiveCamera().getAbsolutePosition();
-			var line = new CL3D.Line3d;
-			line.Start = c;
-			line.End = target;
-			var cpoint = new CL3D.MeshTriangleSelector(planeNode.getMesh(), planeNode).getCollisionPointWithLine(line.Start, line.End, false, null, false);
-			player.node.Pos.X = cpoint.X;
-			player.node.Pos.Z = cpoint.Z;
-		}
-		scene.getActiveCamera().addAnimator(worldAnimator);
+		//once all the loading is done : calls update every 60 ms
+		setInterval(update, 60);
     }
 }
 
@@ -79,8 +58,6 @@ document.onkeydown = function (event) {
 
     // we need to call the key handler of the 3d engine as well, so that the user is
     // able to move the camera using the keys
-    
-    
 
     //engine.handleKeyDown(event);
 };
