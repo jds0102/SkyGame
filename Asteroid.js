@@ -7,9 +7,9 @@ function Asteroid(name, position) {
     this.node.addAnimator(this.animator);
 	this.onClick = function () {
 		if ( lastClickedButton == 0 )
-			alert("A");
+			;//alert("A");
 		else if ( lastClickedButton == 2 )
-			alert("B");
+			;//alert("B");
 	}
 	this.clickAnimator = new CL3D.AnimatorOnClick(scene, engine, this.onClick);
 	//this.clickAnimator = new CL3D.Animator();
