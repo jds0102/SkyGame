@@ -1,68 +1,16 @@
 <html>
 <head>
+    <title>Sky Game</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<script type="text/javascript" src="copperlichtdata/copperlicht.js"></script>
 </head>
 <body>
 	<div align="center">
 		<b>Tutorial 02: Press F and G to move the Cube up and down.</b><br/>
-		<canvas id="3darea" width="640" height="480" style="background-color:#000000">
+		<canvas id="3darea" width="800" height="600" style="background-color:#000000">
 		</canvas>
 	</div>
-	<script type="text/javascript">
-	<!--
-			var engine = startCopperLichtFromFile('3darea', 'http://localhost:8000/copperlichtdata/index.ccbjs');
-			var cubeSceneNode = null;
-			var camera, camAnimator;
-			
-			// this is called when loading the 3d scene has finished
-			engine.OnLoadingComplete = function() 
-			{					
-				var scene = engine.getScene();
-				if (scene)
-				{
-					// find the cube scene node
-					cubeSceneNode = scene.getSceneNodeFromName('cubeMesh1');
-					cubeSceneNode.Pos = new CL3D.Vect3d(0,5,25);
-					// also, force the 3d engine to update the scene every frame
-					scene.setRedrawMode(CL3D.Scene.REDRAW_EVERY_FRAME);
-					
-					// additional, let the sphere constantly rotate
-					var sphereSceneNode = scene.getSceneNodeFromName('sphereMesh1');
-					
-					//camera = new CL3d.CameraSceneNode();
-					//camPos = cubeSceneNode.Pos;
-					//camPos.X += 10;
-					//camPos.Y += 10;
-					//scene.getActiveCamera().Pos = camPos;
-					//scene.getActiveCamera().setTarget(cubeSceneNode.Pos);
-					
-					camAnimator = new CL3D.AnimatorCameraFPS(scene.getActiveCamera(), engine);
-					scene.getActiveCamera().addAnimator(camAnimator);
-					camAnimator.lookAt(cubeSceneNode.Pos);
-					
-					
-				}
-			}
-			
-			document.onkeydown = function(event)
-			{
-				var key = String.fromCharCode(event.keyCode);
-				
-				// when pressed 'L', move the cube scene node a bit up
-				if (key == 'F' && cubeSceneNode)
-					cubeSceneNode.Pos.Y += 5;
-					
-				// when pressed 'G', move the cube scene node a bit down
-				if (key == 'G' && cubeSceneNode)
-					cubeSceneNode.Pos.Y -= 5;
-				
-				// we need to call the key handler of the 3d engine as well, so that the user is
-				// able to move the camera using the keys
-				engine.handleKeyDown(event);
-				camAnimator.lookAt(cubeSceneNode.Pos);			
-			};
-	-->
-	</script>
+	<script type="text/javascript" src = "main.js"></script>
+    <script type="text/javascript" src = "airship.js"></script>
 </body>
 </html>
