@@ -3,7 +3,11 @@ var ASTEROIDS = ['Mesh2', 'Mesh3', 'Mesh4'];
 var AIRSHIP = 'Mesh1';
 var worldAnimator;
 var floorPlane;
-	
+
+var clickedButton = -1;
+var LEFT_BUTTON = 0, MIDDLE_BUTTON = 1, RIGHT_BUTTON = 2;
+var clickedWorld2dPos = { X:0, Y:0, Z:0 };
+
 function hideSceneObjects() {
 	nodes = scene.getAllSceneNodesOfType("mesh");
 	for(var i = 0; i<nodes.length; i++) {
@@ -21,11 +25,11 @@ function onClickWorld(event) {
 	line.Start = c;
 	line.End = target;
 	var cpoint = new CL3D.MeshTriangleSelector(floorPlane.mesh, floorPlane).getCollisionPointWithLine(line.Start, line.End, false, null, false);
-	//var cpoint = new CL3D.Vect3d();
-	//floorPlane.getIntersectionWithLine(new CL3D.Vect3d(0,-10,0), new CL3D.Vect3d(1,10,1), cpoint);
-	//alert(cpoint.Y);
-	player.node.Pos.X = cpoint.X;
-	player.node.Pos.Z = cpoint.Z;
+	clickedWorld2dPos.X = cpoint.X;
+	clickedWorld2dPos.Y = cpoint.Y;
+	clickedWorld2dPos.Z = cpoint.Z;
+	//player.node.Pos.X = cpoint.X;
+	//player.node.Pos.Z = cpoint.Z;
 }
 
 function initWorld() {
@@ -37,6 +41,4 @@ function initWorld() {
 	scene.getActiveCamera().addAnimator(worldAnimator);
 	floorPlane = new FloorPlane();
 	scene.getRootSceneNode().addChild(floorPlane);
-	//floorPlane = new CL3D.Plane3d();
-	//floorPlane.setPlaneFrom3Points(new CL3D.Vect3d(0,0,0),new CL3D.Vect3d(0,0,1), new CL3D.Vect3d(1,0,1));
 }

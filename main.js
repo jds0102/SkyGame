@@ -1,13 +1,14 @@
-var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/game_scene.ccbjs');
+//var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/game_scene.ccbjs');
+var engine = new CL3D.CopperLicht('3darea', true, 60); 
+	engine.load('copperlichtdata/game_scene.ccbjs');
 var camera, camAnimator;
 var scene;
 var theta = 0;
 
-var lastClickedButton = -1;
 
 function update() {
-	//theta+=0.5;
-	//player.node.Pos.Y += Math.sin(theta);
+	theta+=0.05;
+	player.node.Pos.Y += Math.sin(theta);
 	camPos = player.node.Pos.clone();
     camPos.X += 21;
     camPos.Y = 30;
@@ -35,7 +36,8 @@ engine.OnLoadingComplete = function () {
         camAnimator.lookAt(player.node.Pos);
 		
 		//once all the loading is done : calls update every 60 ms
-		setInterval(update, 60);
+		//setInterval(update, 60);
+		engine.OnAnimate = update;
     }
 }
 
