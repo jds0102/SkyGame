@@ -1,21 +1,25 @@
 var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/index.ccbjs');
-var player = null;
+var player = null, asteroid;
 var camera, camAnimator;
 var scene;
+
+var ASTEROID = 'sphereMesh1', AIRSHIP = 'cubeMesh1';
 
 // this is called when loading the 3d scene has finished
 engine.OnLoadingComplete = function () {
     scene = engine.getScene();
     if (scene) {
-        
-        player = new Airship('cubeMesh1', scene);
+
+        player = new Airship(AIRSHIP, scene);
         player.node.Pos = new CL3D.Vect3d(0, 5, 25);
 
         // also, force the 3d engine to update the scene every frame
         scene.setRedrawMode(CL3D.Scene.REDRAW_EVERY_FRAME);
 
-        // additional, let the sphere constantly rotate
-        var sphereSceneNode = scene.getSceneNodeFromName('sphereMesh1');
+        //first hide the asteroid that we will be cloning
+        scene.getSceneNodeFromName(ASTEROID).Visible = false;
+
+        asteroid = new floatingRock(ASTEROID, new CL3D.Vect3d(10, 0, 10));
 
         camPos = player.node.Pos.clone();
         camPos.X += 21;
@@ -25,7 +29,7 @@ engine.OnLoadingComplete = function () {
         camAnimator = new CL3D.AnimatorCameraFPS(scene.getActiveCamera(), engine);
         scene.getActiveCamera().addAnimator(camAnimator);
         camAnimator.lookAt(player.node.Pos);
-        
+
 
 
     }
