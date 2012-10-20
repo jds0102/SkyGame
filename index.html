@@ -2,12 +2,19 @@
 <head>
     <title>Sky Game</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<script type="text/javascript">
+		window.onload = function () {
+			var canvas = document.getElementById("3darea");
+			canvas.width  = window.innerWidth ;
+			canvas.height = window.innerHeight;
+		}
+	</script>
 	<script type="text/javascript" src="copperlichtdata/copperlicht.js"></script>
 	
 </head>
 <body oncontextmenu = "return false;">
 	<div align="center">
-		<canvas id="3darea" width="800" height="600" style="background-color:#000000">
+		<canvas id="3darea" style="background-color:#000000">
 		</canvas>
 	</div>
 	<script type="text/javascript" src = "FloorPlane.js"></script>
