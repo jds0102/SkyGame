@@ -4,7 +4,7 @@ function Airship(name) {
 	this.node.Visible = true;
 	
 	this.speed = 0.05;
-	this.rotationSpeed = 10;
+	this.rotationSpeed = 5;
 	
 	//this.baseRotation = new CL3D.Vect3d(1,0,0).getHorizontalAngle();
 	//Adjust the fact the length of the ship is the X-axis
@@ -52,17 +52,9 @@ function Airship(name) {
 			direction.multiplyThisWithScal(self.speed);
 			self.velocity = direction.clone();
 			
-			var deltaTheta = direction.getHorizontalAngle().Y - self.theta;
-			if ( deltaTheta < 0 || Math.abs(deltaTheta) > 360 - Math.abs(deltaTheta)) {
-				self.rotationSpeed = -1 * Math.abs(self.rotationSpeed);
-				self.rot = direction.getHorizontalAngle().Y;
-			}
-			else {
-				self.rotationSpeed = Math.abs(self.rotationSpeed);
-				self.rot = direction.getHorizontalAngle().Y;
-				//self.theta + 360;
-			}
-			//alert(self.rot + " " + self.theta + " " + deltaTheta);
+			var delta = direction.getHorizontalAngle().Y - self.theta;
+			self.rotationSpeed = ( (delta * (Math.abs(delta) - 180) < 0 ) ? 1 : -1 ) * Math.abs(self.rotationSpeed);
+			self.rot = direction.getHorizontalAngle().Y;
 		}
 	}
 	
@@ -70,3 +62,5 @@ function Airship(name) {
 	this.clickAnimator = new CL3D.AnimatorOnClick(scene, engine, this.onClick);
 	this.node.addAnimator(this.clickAnimator);
 }
+
+
