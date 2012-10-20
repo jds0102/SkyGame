@@ -1,4 +1,5 @@
-var ASTEROIDS = ['Mesh2', 'Mesh3', 'Mesh4'];
+var ASTEROIDS = ['Mesh2', 'Mesh3', 'Mesh4', 'Mesh6'];
+var PLATFORMS = ['Mesh6'];
 var AIRSHIP = 'Mesh1';
 
 var worldAnimator;
@@ -41,7 +42,7 @@ function onClickWorld(event) {
 
 function initWorld() {
 	player = new Airship(AIRSHIP, scene);
-    player.node.Pos = new CL3D.Vect3d(0, 5, 25);
+    player.node.Pos = new CL3D.Vect3d(0, 0, 25);
 	asteroid = new Asteroid(ASTEROIDS[0], new CL3D.Vect3d(10, 0, 10));
 	worldAnimator = new CL3D.Animator();
 	worldAnimator.onMouseDown = onClickWorld;

@@ -29,7 +29,7 @@ engine.OnLoadingComplete = function () {
 
         camPos = player.node.Pos.clone();
         camPos.X += 21;
-        camPos.Y += 30;
+        camPos.Y += 20;
         scene.getActiveCamera().Pos = camPos;
 
         camAnimator = new CL3D.AnimatorCameraFPS(scene.getActiveCamera(), engine);
