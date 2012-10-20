@@ -13,9 +13,10 @@ function Airship(name) {
 	this.velocity = new CL3D.Vect3d(0,0,0);
 	
 	this.path = null;
-	this.rot = null
+	this.rot = null;
+	
 	//angle in the x-z plane w.r.t to z-axis
-	//this.theta = 0;
+	this.theta = 0;
 	
 	this.update = function() {
 		if ( self.path ) {
@@ -26,16 +27,15 @@ function Airship(name) {
 		}
 		if ( self.rot ) {
 			//console.log(self.path.substract(self.node.Pos));
-			if ( Math.abs(self.node.Rot.Y - self.rot) < self.rotationSpeed  ) {
+			if ( Math.abs(self.theta - self.rot) < Math.abs(self.rotationSpeed)  ) {
 				self.rot = null;
 			}
-			self.node.Rot.Y = (self.node.Rot.Y -90 + self.rotationSpeed) %360 + 90;
+			self.theta = (self.theta + self.rotationSpeed) %360;
+			self.theta += self.theta < 0 ? 360 : 0 ;
+			//alert(self.rot + " " + self.theta + " " + Math.abs(self.theta - self.rot));
 		}
-			//rotation = direction.getHorizontalAngle().Y - self.node.Rot.getHorizontalAngle().Y 
-			//rotation.normalize();
-			//rotation.multiplyThisWithScal(self.rotationSpeed);
-			//self.node.Rot.addToThis(rotation);			
-		
+						
+		self.node.Rot.Y = (self.theta + 90) % 360;
 	}
 	
 	this.onClick = function() {
@@ -52,11 +52,17 @@ function Airship(name) {
 			direction.multiplyThisWithScal(self.speed);
 			self.velocity = direction.clone();
 			
-			self.rot = direction.getHorizontalAngle().Y + 90;
-
-			//self.node.Rot = direction.getHorizontalAngle();
-			//self.node.Rot.Y += 90;
-			alert(self.rot);
+			var deltaTheta = direction.getHorizontalAngle().Y - self.theta;
+			if ( deltaTheta < 0 || Math.abs(deltaTheta) > 360 - Math.abs(deltaTheta)) {
+				self.rotationSpeed = -1 * Math.abs(self.rotationSpeed);
+				self.rot = direction.getHorizontalAngle().Y;
+			}
+			else {
+				self.rotationSpeed = Math.abs(self.rotationSpeed);
+				self.rot = direction.getHorizontalAngle().Y;
+				//self.theta + 360;
+			}
+			//alert(self.rot + " " + self.theta + " " + deltaTheta);
 		}
 	}
 	
