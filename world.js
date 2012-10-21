@@ -44,7 +44,12 @@ function onMouseDownWorld(event) {
 function initWorld() {
 	player = new Airship(AIRSHIP, scene);
 	player.node.Pos = new CL3D.Vect3d(0, 0, 25);
-	player.node.getMaterial(0).Type = newMaterialType;
+
+	for (var i = 0; i < player.node.getMaterialCount(); i++ ) {
+	    player.node.getMaterial(i).Type = newMaterialType;
+	}
+
+	
 
 	portal = new Portal();
 	scene.getRootSceneNode().addChild(portal);
@@ -56,6 +61,7 @@ function initWorld() {
 	do {
 	    if (scene.getSceneNodeFromName('stream' + i)) {
 	        airstreams.push(new Airstream('stream' + i));
+	        //airstreams[i-1].node.getMaterial(0).Type = newMaterialType;
             i++;
         }
 	    else haveMoreAirStreams = false;
