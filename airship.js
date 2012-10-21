@@ -7,8 +7,8 @@ function Airship(name) {
 	this.direction = new CL3D.Vect3d(0, 0, 1);
 
 	this.speed = 1;
-	this.hzSpeed = 1;
-	this.rotSpeed = 10;
+	this.hzSpeed = 0.5;
+	this.rotSpeed = 3;
     this.dragFactor = 0.98;
 
     this.turnFactor = 0.10;
@@ -52,6 +52,37 @@ function Airship(name) {
             }
         }
         self.node.Pos.addToThis(self.velocity);
+
+        var left = self.direction.crossProduct(new CL3D.Vect3d(0, 1, 0));
+        var rot = self.direction.getHorizontalAngle();
+        left.multiplyThisWithScal(self.hzSpeed);
+
+        if (KB.isKeyDown['W'] && player.node)
+            self.node.Pos.addToThis(self.direction);
+
+        if (KB.isKeyDown['Q'] && player.node) {
+            self.node.Rot.Y -= self.rotSpeed;
+        }
+
+        if (KB.isKeyDown['E'] && player.node) {
+            self.node.Rot.Y += self.rotSpeed; ;
+        }
+        
+        if (KB.isKeyDown['A'] && player.node) 
+            self.node.Pos.addToThis(left);
+
+        if (KB.isKeyDown['S'] && player.node)
+            self.node.Pos.substractFromThis(self.direction); ;
+
+        if (KB.isKeyDown['D'] && player.node)
+            self.node.Pos.addToThis(left.multiplyWithScal(-1));
+
+        var mat = new CL3D.Matrix4(true);
+        mat.setRotationDegrees(self.node.Rot);
+        self.direction.X = 0;
+        self.direction.Y = 0;
+        self.direction.Z = 1;
+        mat.rotateVect(self.direction);
     }
 
 	this.onClick = function () {
@@ -63,41 +94,41 @@ function Airship(name) {
 	        ;
 	    }
 	}
-	this.onKeyDown = function (event) {
-	    var key = String.fromCharCode(event.keyCode);
-	    var left = self.direction.crossProduct(new CL3D.Vect3d(0, 1, 0));
+//	this.onKeyDown = function (event) {
+//	    var key = String.fromCharCode(event.keyCode);
+//	    var left = self.direction.crossProduct(new CL3D.Vect3d(0, 1, 0));
 
-	    var rot = self.direction.getHorizontalAngle();
+//	    var rot = self.direction.getHorizontalAngle();
 
-	    left.multiplyThisWithScal(self.hzSpeed);
-	    if (key == 'W' && player.node)
-	        self.node.Pos.addToThis(self.direction);
+//	    left.multiplyThisWithScal(self.hzSpeed);
+//	    if (key == 'W' && player.node)
+//	        self.node.Pos.addToThis(self.direction);
 
-	    if (key == 'Q' && player.node) {
-	        self.node.Rot.Y -= self.rotSpeed;
-	    }
+//	    if (key == 'Q' && player.node) {
+//	        self.node.Rot.Y -= self.rotSpeed;
+//	    }
 
-	    if (key == 'E' && player.node) {
-	        self.node.Rot.Y += self.rotSpeed; ;
-	    }
+//	    if (key == 'E' && player.node) {
+//	        self.node.Rot.Y += self.rotSpeed; ;
+//	    }
 
-	    if (key == 'A' && player.node)
-	        self.node.Pos.addToThis(left);
+//	    if (key == 'A' && player.node)
+//	        self.node.Pos.addToThis(left);
 
-	    if (key == 'S' && player.node)
-	        self.node.Pos.substractFromThis(self.direction); ;
+//	    if (key == 'S' && player.node)
+//	        self.node.Pos.substractFromThis(self.direction); ;
 
-	    if (key == 'D' && player.node)
-	        self.node.Pos.addToThis(left.multiplyWithScal(-1));
+//	    if (key == 'D' && player.node)
+//	        self.node.Pos.addToThis(left.multiplyWithScal(-1));
 
-	    var mat = new CL3D.Matrix4(true);
-	    mat.setRotationDegrees(self.node.Rot);
-	    self.direction.X = 0;
-	    self.direction.Y = 0;
-	    self.direction.Z = 1;
-	    mat.rotateVect(self.direction);
+//	    var mat = new CL3D.Matrix4(true);
+//	    mat.setRotationDegrees(self.node.Rot);
+//	    self.direction.X = 0;
+//	    self.direction.Y = 0;
+//	    self.direction.Z = 1;
+//	    mat.rotateVect(self.direction);
 
-	}	
+//	}	
 
 	//this.clickAnimator = new CL3D.AnimatorOnClick(scene, engine, this.onClick);
 	//this.node.addAnimator(this.clickAnimator);

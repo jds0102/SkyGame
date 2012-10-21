@@ -8,6 +8,8 @@ var screenWidth = 1024, screenHeight = 768;
 
 
 function update() {
+    player.update();
+    updateWorld();
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
 	shipLookAt.normalize();
@@ -16,8 +18,6 @@ function update() {
 	camPos.Y += 21;
     scene.getActiveCamera().Pos = camPos;
     camAnimator.lookAt(player.node.Pos);
-    player.update();
-    updateWorld();
 }
 
 // this is called when loading the 3d scene has finished
@@ -44,8 +44,4 @@ engine.OnLoadingComplete = function () {
 
         engine.OnAnimate = update;
     }
-}
-//So that the stupid FPS camera doesn't doing its shit!
-document.onkeydown = function onKeyDown(event) {
-    player.onKeyDown(event);
 }
