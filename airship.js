@@ -72,7 +72,21 @@ function Airship(name) {
         if (KB.isKeyDown['E'] && player.node) {
             self.node.Rot.Y += self.rotSpeed; ;
         }
-        
+        if (KB.isKeyDown['A'] && player.node)
+            self.node.Pos.addToThis(left);
+
+        if (KB.isKeyDown['S'] && player.node)
+            self.node.Pos.substractFromThis(self.direction); ;
+
+        if (KB.isKeyDown['D'] && player.node)
+            self.node.Pos.addToThis(left.multiplyWithScal(-1));
+
+        var mat = new CL3D.Matrix4(true);
+        mat.setRotationDegrees(self.node.Rot);
+        self.direction.X = 0;
+        self.direction.Y = 0;
+        self.direction.Z = 1;
+        mat.rotateVect(self.direction);
 
         for (var i = 0; i < collectibles.length; i++) {
             if (this.node.getTransformedBoundingBox().intersectsWithBox(collectibles[i].node.getTransformedBoundingBox()) && collectibles[i].node.Visible == true) {
@@ -89,21 +103,7 @@ function Airship(name) {
             }
 
         }
-        if (KB.isKeyDown['A'] && player.node) 
-            self.node.Pos.addToThis(left);
-
-        if (KB.isKeyDown['S'] && player.node)
-            self.node.Pos.substractFromThis(self.direction); ;
-
-        if (KB.isKeyDown['D'] && player.node)
-            self.node.Pos.addToThis(left.multiplyWithScal(-1));
-
-        var mat = new CL3D.Matrix4(true);
-        mat.setRotationDegrees(self.node.Rot);
-        self.direction.X = 0;
-        self.direction.Y = 0;
-        self.direction.Z = 1;
-        mat.rotateVect(self.direction);
+       
     }
 
 	this.onClick = function () {
