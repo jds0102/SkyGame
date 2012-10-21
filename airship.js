@@ -11,11 +11,11 @@ function Airship(name) {
 	this.rotSpeed = 3;
     this.dragFactor = 0.98;
 
-    this.turnFactor = 0.10;
+    this.turnFactor = 0.01;
     self.toTurn = false;
     this.curStreamIndex = 1;
 
-    this.health = 50;
+    this.health = 100;
     this.mana = 100;
     this.stars = 0;
     this.coins = 0;
@@ -29,7 +29,7 @@ function Airship(name) {
             var insideStream = false;
             if (self.curStreamIndex < airstreams.length - 1 && airstreams[self.curStreamIndex].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
                 insideStream = true;
-                if (self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed < 0.95) {
+                if (self.toTurn && self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed < 0.95) {
                     //alert(self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed);
                     self.velocity.multiplyThisWithScal(1 - self.turnFactor);
                     self.velocity.addToThis(airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed * self.turnFactor));
@@ -40,7 +40,6 @@ function Airship(name) {
             }
             else if (self.curStreamIndex < airstreams.length - 2 && airstreams[self.curStreamIndex + 1].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
                 self.curStreamIndex++;
-                //self.toTurn = true;
                 insideStream = true;
             }
             else {
@@ -103,7 +102,14 @@ function Airship(name) {
             }
 
         }
-       
+
+        for (var i = 0; i < asteroids.length; i++) {
+            if (this.node.getTransformedBoundingBox().intersectsWithBox(asteroids[i].node.getTransformedBoundingBox()) && asteroids[i].node.Visible == true) {
+                asteroids[i].node.Visible = false;
+                self.decreaseHealth(25);
+            }
+        }
+
     }
 
 	this.onClick = function () {
@@ -153,6 +159,10 @@ function Airship(name) {
 
     this.increaseHealth = function (value) {
         self.health = Math.min(100, self.health + value);
+    }
+
+    this.decreaseHealth = function (value) {
+        self.health = Math.max(0, self.health - value);
     }
 
     this.increaseMana = function (value) {

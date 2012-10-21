@@ -1,9 +1,8 @@
 function Asteroid(name, position) {
     var self = this;
-    this.node = scene.getSceneNodeFromName(name).createClone(scene.getSceneNodeFromName(name).getParent());
+    this.node = scene.getSceneNodeFromName(name);
     this.node.Visible = true;
-    this.node.Pos = position;
-    this.node.Scale = new CL3D.Vect3d(10, 10, 10);
+    //this.node.Scale = new CL3D.Vect3d(10, 10, 10);
     this.onClick = function () {
 
         //alert("asteroid");
