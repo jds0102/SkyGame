@@ -11,9 +11,9 @@ function update() {
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
 	shipLookAt.normalize();
-	shipLookAt.multiplyThisWithScal(12);
+	shipLookAt.multiplyThisWithScal(18);
 	camPos.substractFromThis(shipLookAt);
-	camPos.Y += 15;
+	camPos.Y += 21;
     scene.getActiveCamera().Pos = camPos;
     camAnimator.lookAt(player.node.Pos);
     player.update();
