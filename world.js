@@ -2,6 +2,7 @@ var PLATFORMS = ['Mesh6'];
 var AIRSHIP = 'ship';
 
 var worldAnimator;
+var worldBox = new CL3D.Box3d();
 
 var player = null, asteroid;
 var airstreams = [];
@@ -49,7 +50,12 @@ function initWorld() {
 	    player.node.getMaterial(i).Type = newMaterialType;
 	}
 
-	
+	worldBox.addInternalPoint(500, 0, 0);
+	worldBox.addInternalPoint(-500, 0, 0);
+	worldBox.addInternalPoint(0, 500, 0);
+	worldBox.addInternalPoint(0, -500, 0);
+	worldBox.addInternalPoint(0, 0, 1000);
+	worldBox.addInternalPoint(0, 0, 0);
 
 	portal = new Portal();
 	scene.getRootSceneNode().addChild(portal);

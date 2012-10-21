@@ -1,5 +1,5 @@
 //var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/game_scene.ccbjs');
-var engine = new CL3D.CopperLicht('3darea', true, 60,true); 
+var engine = new CL3D.CopperLicht('3darea', false, 60,false); 
 	engine.load('copperlichtdata/level0.ccbjs');
 var camera, camAnimator, light;
 var scene;
@@ -8,10 +8,12 @@ var newMaterialType;
 
 var screenWidth = 1024, screenHeight = 768;
 
+document.body.style.overflow = "hidden";
 
 function update() {
     player.update();
     updateWorld();
+    updateBullets();
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
 	shipLookAt.normalize();

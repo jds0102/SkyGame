@@ -3,22 +3,25 @@
     <title>Sky Game</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<script type="text/javascript">
-		window.onload = function () {
-			var canvas = document.getElementById("3darea");
-			canvas.width  = 1024 ;
-			canvas.height = 768;
-		}
+	    window.onload = function () {
+	        //I'm assuming you have a screen that is wider
+	        var canvas = document.getElementById("3darea");
+	        var ratio = 1024 / 768;
+	        canvas.height = document.height;
+	        canvas.width = canvas.height * ratio;
+	    }
 	</script>
 	<script type="text/javascript" src="copperlichtdata/copperlicht.js"></script>
 	
 </head>
 <body oncontextmenu = "return false;">
-	<div align="center">
+	<div id="game" align="center">
 		<canvas id="3darea" style="background-color:#000000">
 		</canvas>
 	</div>
     
 	<script type="text/javascript" src = "FloorPlane.js"></script>
+    <script type="text/javascript" src = "Bullets.js"></script>
     <script type="text/javascript" src = "Collectibles.js"></script>
     <script type="text/javascript" src = "HUD.js"></script>
     <script type="text/javascript" src = "Portal.js"></script>

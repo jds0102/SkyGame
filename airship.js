@@ -6,7 +6,7 @@ function Airship(name) {
 	this.velocity = new CL3D.Vect3d(0,0,0);
 	this.direction = new CL3D.Vect3d(0, 0, 1);
 
-	this.speed = .2;
+	this.speed = .5;
 	this.hzSpeed = 0.5;
 	this.rotSpeed = 3;
     this.dragFactor = 0.98;
@@ -81,6 +81,9 @@ function Airship(name) {
         if (KB.isKeyDown['D'] && player.node)
             self.node.Pos.addToThis(left.multiplyWithScal(-1));
 
+        if (KB.isKeyDown[' '] && player.node)
+            bullets.push(new Bullet1(self.node.Pos.clone(), self.direction.clone())); 
+
         var mat = new CL3D.Matrix4(true);
         mat.setRotationDegrees(self.node.Rot);
         self.direction.X = 0;
@@ -103,7 +106,7 @@ function Airship(name) {
             }
 
         }
-       
+
     }
 
 	this.onClick = function () {
