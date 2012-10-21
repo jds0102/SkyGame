@@ -45,10 +45,17 @@ function initWorld() {
 	portal = new Portal();
 	scene.getRootSceneNode().addChild(portal);
 	portal.Visible = false;
-
-    //asteroid = new Asteroid(ASTEROIDS[0], new CL3D.Vect3d(0, 0, 0));
-    airstreams.push(new Airstream('stream1'));
-    airstreams.push(new Airstream('stream2'));
+    
+	//asteroid = new Asteroid(ASTEROIDS[0], new CL3D.Vect3d(0, 0, 0));
+	var i = 1;
+	var haveMoreAirStreams = true;
+	do {
+	    if (scene.getSceneNodeFromName('stream' + i)) {
+	        airstreams.push(new Airstream('stream' + i));
+            i++;
+        }
+	    else haveMoreAirStreams = false;
+	}while (haveMoreAirStreams);
     //alert(airstreams[0].node.Rot);
     //alert(airstreams[1].node.Rot);
 	

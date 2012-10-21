@@ -6,27 +6,48 @@ function Airship(name) {
 	this.velocity = new CL3D.Vect3d(0,0,0);
 	this.direction = new CL3D.Vect3d(0, 0, 1);
 
-	this.speed = 0.1;
+	this.speed = 1;
 	this.hzSpeed = 1;
 	this.rotSpeed = 10;
     this.dragFactor = 0.98;
 
-	this.update = function () {	    
-	    if (airstreams) {
-	        var insideStream = false;
-	        for (var i = airstreams.length - 1; i >= 0; i--) {
-	            if (airstreams[i].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
-	                self.velocity = airstreams[i].direction.multiplyWithScal(self.speed);
-	                insideStream = true;
-	                break;
-	            }
-	        }
-	        if (!insideStream) {
-	            self.velocity.multiplyThisWithScal(self.dragFactor);
-	        }
-	    }
-	    self.node.Pos.addToThis(self.velocity);
-	}
+    this.turnFactor = 0.10;
+    self.toTurn = false;
+    this.curStreamIndex = 1;
+
+    this.update = function () {
+        if (airstreams) {
+            var insideStream = false;
+            if (self.curStreamIndex < airstreams.length - 1 && airstreams[self.curStreamIndex].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
+                insideStream = true;
+                if (self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed < 0.95) {
+                    //alert(self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed);
+                    self.velocity.multiplyThisWithScal(1 - self.turnFactor);
+                    self.velocity.addToThis(airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed * self.turnFactor));
+                }
+                else
+                    self.velocity = airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed);
+            }
+            else if (self.curStreamIndex < airstreams.length - 2 && airstreams[self.curStreamIndex + 1].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
+                self.curStreamIndex++;
+                //self.toTurn = true;
+                insideStream = true;
+            }
+            else {
+                for (var i = airstreams.length - 1; i >= 0; i--) {
+                    if (airstreams[i].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
+                        self.velocity = airstreams[i].direction.multiplyWithScal(self.speed);
+                        insideStream = true;
+                        break;
+                    }
+                }
+            }
+            if (!insideStream) {
+                self.velocity.multiplyThisWithScal(self.dragFactor);
+            }
+        }
+        self.node.Pos.addToThis(self.velocity);
+    }
 
 	this.onClick = function () {
 
