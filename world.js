@@ -5,6 +5,7 @@ var worldAnimator;
 
 var player = null, asteroid;
 var airstreams = [];
+var collectibles = [];
 var portal;
 var floorPlane;
 var hud;
@@ -43,6 +44,7 @@ function onMouseDownWorld(event) {
 function initWorld() {
 	player = new Airship(AIRSHIP, scene);
 	player.node.Pos = new CL3D.Vect3d(0, 0, 25);
+	player.node.getMaterial(0).Type = newMaterialType;
 
 	portal = new Portal();
 	scene.getRootSceneNode().addChild(portal);
@@ -69,7 +71,36 @@ function initWorld() {
 	scene.getRootSceneNode().addChild(floorPlane);
 
 	hud = new HUD();
-	
+
+    //Load in the Health Globes
+	i = 1;
+	while (scene.getSceneNodeFromName('health' + i)) {
+	    collectibles.push(new HealthGlobe('health' + i));
+	    i++;
+	}
+
+    //Load in the Mana Globes
+	i = 1;
+	while (scene.getSceneNodeFromName('mana' + i)) {
+	    collectibles.push(new ManaGlobe('mana' + i));
+	    i++;
+	}
+
+
+    //Load in the coins
+	i = 1;
+	while (scene.getSceneNodeFromName('coin' + i)) {
+	    collectibles.push(new Coin('coin' + i));
+	    i++;
+	}
+
+    //Load in the stars
+	i = 1;
+	while (scene.getSceneNodeFromName('star' + i)) {
+	    collectibles.push(new Star('star' + i));
+	    i++;
+	}
+
 
 }
 
@@ -77,6 +108,8 @@ function updateWorld() {
     hud.update();
 
     worldTimer = new Date().getTime() - scene.getStartTime();
+
+    
 }
 
 

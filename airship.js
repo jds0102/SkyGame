@@ -1,12 +1,12 @@
 function Airship(name) {	
     var self = this;
-    this.node = scene.getSceneNodeFromName(name).createClone(scene.getSceneNodeFromName(name).getParent());
+    this.node = scene.getSceneNodeFromName(name); //.createClone(scene.getSceneNodeFromName(name).getParent());
 	this.node.Visible = true;
 
 	this.velocity = new CL3D.Vect3d(0,0,0);
 	this.direction = new CL3D.Vect3d(0, 0, 1);
 
-	this.speed = 1;
+	this.speed = .2;
 	this.hzSpeed = 0.5;
 	this.rotSpeed = 3;
     this.dragFactor = 0.98;
@@ -15,12 +15,16 @@ function Airship(name) {
     self.toTurn = false;
     this.curStreamIndex = 1;
 
-    this.health = 100;
+    this.health = 50;
     this.mana = 100;
-    this.stars = 12;
-    this.coins = 4;
+    this.stars = 0;
+    this.coins = 0;
 
     this.update = function () {
+        if (paused) {
+            return;
+        }
+
         if (airstreams) {
             var insideStream = false;
             if (self.curStreamIndex < airstreams.length - 1 && airstreams[self.curStreamIndex].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
@@ -32,6 +36,7 @@ function Airship(name) {
                 }
                 else
                     self.velocity = airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed);
+
             }
             else if (self.curStreamIndex < airstreams.length - 2 && airstreams[self.curStreamIndex + 1].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
                 self.curStreamIndex++;
@@ -68,6 +73,22 @@ function Airship(name) {
             self.node.Rot.Y += self.rotSpeed; ;
         }
         
+
+        for (var i = 0; i < collectibles.length; i++) {
+            if (this.node.getTransformedBoundingBox().intersectsWithBox(collectibles[i].node.getTransformedBoundingBox()) && collectibles[i].node.Visible == true) {
+                if (collectibles[i].type == "health") {
+                    self.increaseHealth(10);
+                } else if (collectibles[i].type == "mana") {
+                    self.increaseMana(10);
+                } else if (collectibles[i].type == "star") {
+                    self.stars++;
+                } else if (collectibles[i].type == "coin") {
+                    self.coins++;
+                }
+                collectibles[i].node.Visible = false;
+            }
+
+        }
         if (KB.isKeyDown['A'] && player.node) 
             self.node.Pos.addToThis(left);
 
@@ -129,6 +150,14 @@ function Airship(name) {
 //	    mat.rotateVect(self.direction);
 
 //	}	
+
+    this.increaseHealth = function (value) {
+        self.health = Math.min(100, self.health + value);
+    }
+
+    this.increaseMana = function (value) {
+        self.mana = Math.min(100, self.mana + value);
+    }
 
 	//this.clickAnimator = new CL3D.AnimatorOnClick(scene, engine, this.onClick);
 	//this.node.addAnimator(this.clickAnimator);
