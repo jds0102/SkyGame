@@ -7,6 +7,8 @@ var player = null, asteroid;
 var airstreams = [];
 var portal;
 var floorPlane;
+var hud;
+var worldTimer = 0;
 
 var selectedObject = null;
 
@@ -65,7 +67,16 @@ function initWorld() {
 
 	floorPlane = new FloorPlane();
 	scene.getRootSceneNode().addChild(floorPlane);
+
+	hud = new HUD();
 	
+
+}
+
+function updateWorld() {
+    hud.update();
+
+    worldTimer = new Date().getTime() - scene.getStartTime();
 }
 
 

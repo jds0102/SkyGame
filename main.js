@@ -4,6 +4,7 @@ var engine = new CL3D.CopperLicht('3darea', true, 60,true);
 var camera, camAnimator;
 var scene;
 
+var screenWidth = 1024, screenHeight = 768;
 
 
 function update() {
@@ -16,6 +17,7 @@ function update() {
     scene.getActiveCamera().Pos = camPos;
     camAnimator.lookAt(player.node.Pos);
     player.update();
+    updateWorld();
 }
 
 // this is called when loading the 3d scene has finished

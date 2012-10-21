@@ -15,6 +15,11 @@ function Airship(name) {
     self.toTurn = false;
     this.curStreamIndex = 1;
 
+    this.health = 100;
+    this.mana = 100;
+    this.stars = 12;
+    this.coins = 4;
+
     this.update = function () {
         if (airstreams) {
             var insideStream = false;
