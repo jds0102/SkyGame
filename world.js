@@ -1,10 +1,10 @@
-var ASTEROIDS = ['stream', 'Mesh3', 'Mesh4', 'Mesh6'];
 var PLATFORMS = ['Mesh6'];
 var AIRSHIP = 'ship';
 
 var worldAnimator;
 
 var player = null, asteroid;
+var airstreams = [];
 var floorPlane;
 
 var selectedObject = null;
@@ -40,8 +40,12 @@ function onMouseDownWorld(event) {
 function initWorld() {
 	player = new Airship(AIRSHIP, scene);
     player.node.Pos = new CL3D.Vect3d(0, 0, 25);
-	
-    asteroid = new Asteroid(ASTEROIDS[0], new CL3D.Vect3d(0, 0, 0));
+
+    //asteroid = new Asteroid(ASTEROIDS[0], new CL3D.Vect3d(0, 0, 0));
+    airstreams.push(new Airstream('stream1'));
+    airstreams.push(new Airstream('stream2'));
+    alert(airstreams[0].node.Rot);
+    alert(airstreams[1].node.Rot);
 	
     worldAnimator = new CL3D.Animator();
     worldAnimator.onMouseDown = onMouseDownWorld;
