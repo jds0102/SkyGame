@@ -5,6 +5,7 @@ var worldAnimator;
 
 var player = null, asteroid;
 var airstreams = [];
+var portal;
 var floorPlane;
 
 var selectedObject = null;
@@ -39,18 +40,22 @@ function onMouseDownWorld(event) {
 
 function initWorld() {
 	player = new Airship(AIRSHIP, scene);
-    player.node.Pos = new CL3D.Vect3d(0, 0, 25);
+	player.node.Pos = new CL3D.Vect3d(0, 0, 25);
+
+	portal = new Portal();
+	scene.getRootSceneNode().addChild(portal);
+	portal.Visible = false;
 
     //asteroid = new Asteroid(ASTEROIDS[0], new CL3D.Vect3d(0, 0, 0));
     airstreams.push(new Airstream('stream1'));
     airstreams.push(new Airstream('stream2'));
-    alert(airstreams[0].node.Rot);
-    alert(airstreams[1].node.Rot);
+    //alert(airstreams[0].node.Rot);
+    //alert(airstreams[1].node.Rot);
 	
     worldAnimator = new CL3D.Animator();
     worldAnimator.onMouseDown = onMouseDownWorld;
-    
     scene.getActiveCamera().addAnimator(worldAnimator);
+
 	floorPlane = new FloorPlane();
 	scene.getRootSceneNode().addChild(floorPlane);
 	

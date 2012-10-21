@@ -3,14 +3,29 @@ function Airship(name) {
     this.node = scene.getSceneNodeFromName(name).createClone(scene.getSceneNodeFromName(name).getParent());
 	this.node.Visible = true;
 
-	this.velocity = new CL3D.Vect3d(0,0,10);
+	this.velocity = new CL3D.Vect3d(0,0,0);
 	this.direction = new CL3D.Vect3d(0, 0, 1);
 
+	this.speed = 0.1;
 	this.hzSpeed = 1;
 	this.rotSpeed = 10;
+    this.dragFactor = 0.98;
 
-	this.update = function () {
-	    //self.node.Pos.addToThis(self.velocity);
+	this.update = function () {	    
+	    if (airstreams) {
+	        var insideStream = false;
+	        for (var i = airstreams.length - 1; i >= 0; i--) {
+	            if (airstreams[i].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
+	                self.velocity = airstreams[i].direction.multiplyWithScal(self.speed);
+	                insideStream = true;
+	                break;
+	            }
+	        }
+	        if (!insideStream) {
+	            self.velocity.multiplyThisWithScal(self.dragFactor);
+	        }
+	    }
+	    self.node.Pos.addToThis(self.velocity);
 	}
 
 	this.onClick = function () {

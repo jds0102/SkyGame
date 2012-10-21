@@ -16,8 +16,6 @@ function update() {
     scene.getActiveCamera().Pos = camPos;
     camAnimator.lookAt(player.node.Pos);
     player.update();
-
-
 }
 
 // this is called when loading the 3d scene has finished
