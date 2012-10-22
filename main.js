@@ -22,7 +22,7 @@ function update() {
 	camPos.substractFromThis(shipLookAt);
 	camPos.Y += 21;
 	scene.getActiveCamera().Pos = camPos;
-	light.Pos = scene.getActiveCamera().Pos;
+	//light.Pos = scene.getActiveCamera().Pos;
     camAnimator.lookAt(player.node.Pos.add(new CL3D.Vect3d(0,15,0)));
 }
 
@@ -48,8 +48,9 @@ engine.OnLoadingComplete = function () {
         //camAnimator.setMayMove(false);
         camAnimator.lookAt(player.node.Pos);
 
-        light = scene.getSceneNodeFromName('Light1');
-        light.Pos = scene.getActiveCamera().Pos;
+        //light = new CL3D.LightSceneNode();
+        //scene.getActiveCamera().addChild(light);
+        //light.Pos = scene.getActiveCamera().Pos;
 
 
         engine.OnAnimate = update;

@@ -6,7 +6,7 @@ function Airship(name) {
 	this.velocity = new CL3D.Vect3d(0,0,0);
 	this.direction = new CL3D.Vect3d(0, 0, 1);
 
-	this.speed = .5;
+	this.speed = 1.5;
 	this.hzSpeed = 0.5;
 	this.rotSpeed = 3;
     this.dragFactor = 0.98;

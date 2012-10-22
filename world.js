@@ -63,7 +63,8 @@ function initWorld() {
 	portal = new Portal();
 	scene.getRootSceneNode().addChild(portal);
 	portal.Visible = false;
-    
+
+	
 	//asteroid = new Asteroid(ASTEROIDS[0], new CL3D.Vect3d(0, 0, 0));
 	var i = 1;
 	var haveMoreAirStreams = true;
