@@ -47,6 +47,8 @@ function initWorld() {
 	player = new Airship(AIRSHIP, scene);
 	player.node.Pos = new CL3D.Vect3d(0, 0, 25);
 
+    enemy = new EnemyTower();
+
 //	for (var i = 0; i < player.node.getMaterialCount(); i++ ) {
 //	    player.node.getMaterial(i).Type = newMaterialType;
 //	}
