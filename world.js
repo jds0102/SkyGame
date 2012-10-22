@@ -7,6 +7,7 @@ var worldBox = new CL3D.Box3d();
 var player = null, asteroid;
 var airstreams = [];
 var collectibles = [];
+var asteroids = [];
 var portal;
 var floorPlane;
 var hud;
@@ -46,9 +47,9 @@ function initWorld() {
 	player = new Airship(AIRSHIP, scene);
 	player.node.Pos = new CL3D.Vect3d(0, 0, 25);
 
-	for (var i = 0; i < player.node.getMaterialCount(); i++ ) {
-	    player.node.getMaterial(i).Type = newMaterialType;
-	}
+//	for (var i = 0; i < player.node.getMaterialCount(); i++ ) {
+//	    player.node.getMaterial(i).Type = newMaterialType;
+//	}
 
 	worldBox.addInternalPoint(500, 0, 0);
 	worldBox.addInternalPoint(-500, 0, 0);
@@ -112,6 +113,14 @@ function initWorld() {
 	    collectibles.push(new Star('star' + i));
 	    i++;
 	}
+
+	//Load in the asteroids
+	i = 1;
+	while (scene.getSceneNodeFromName('asteroid' + i)) {
+	    asteroids.push(new Asteroid('asteroid' + i));
+	    i++;
+	}
+
 
 
 }
