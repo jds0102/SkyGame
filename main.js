@@ -22,7 +22,7 @@ function update() {
 	camPos.Y += 21;
 	scene.getActiveCamera().Pos = camPos;
 	light.Pos = scene.getActiveCamera().Pos;
-    camAnimator.lookAt(player.node.Pos);
+    camAnimator.lookAt(player.node.Pos.add(new CL3D.Vect3d(0,15,0)));
 }
 
 // this is called when loading the 3d scene has finished
