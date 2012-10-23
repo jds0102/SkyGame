@@ -28,10 +28,10 @@ function HUD() {
 
 	healthBarHeader = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(healthBarHeader);
-	healthBarHeader.set2DPosition(5, 5, 150, 50);
+	healthBarHeader.set2DPosition(5, 5, 150, 20);
 	healthBarHeader.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
 	healthBarHeader.FontName = "12;default;arial;normal;bold;true";
-	healthBarHeader.setText("Health asDLasd aSDasd asDasd aSDasd ");
+	healthBarHeader.setText("Health");
 
 	healthBar = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(healthBar);
@@ -109,4 +109,14 @@ function HUD() {
         
 	    self.gameTimer.setText(timeToDisplay + "");
 	}
+}
+
+function hideChat() {
+    document.getElementById('chat').style.display = "none";
+}
+
+function chat(person, text) {
+    document.getElementById('chat').style.display = "block";
+    document.getElementById('chat').innerHTML = text;
+    setTimeout(hideChat, 3000);
 }

@@ -12,12 +12,31 @@
 	    }
 	</script>
 	<script type="text/javascript" src="copperlichtdata/copperlicht.js"></script>
-	
+	<style>
+        .alert {
+            background-color: #FFFF73;
+            border-radius: 10px;
+            display: none;
+            opacity: 0.6;
+            width : 200px;
+            position:relative;
+            top:100px;
+            left:100px;
+            height:auto;
+            padding: 10px;
+            z-index: 100;
+        }
+
+        
+    </style>
 </head>
 <body oncontextmenu = "return false;">
-	<div id="game" align="center">
-		<canvas id="3darea" style="background-color:#000000">
-		</canvas>
+	<div id="game" class="help_link" >
+		<div align="center" >
+            <span id="chat" class="alert"> Some Text that automatically geos to the lext lien blah blah blah</span>
+            <canvas id="3darea" style="background-color:#000000" ></canvas>
+		</div>
+        <br />
 	</div>
     
 	<script type="text/javascript" src = "FloorPlane.js"></script>
