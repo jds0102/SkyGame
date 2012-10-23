@@ -35,12 +35,18 @@ function EnemyTower() {
         mat.rotateVect(self.direction);
     }
 
+    this.gotShot = function (shooter, bullet) {
+        if (shooter == player ) {
+            //alert("OUCH");
+        }
+    }
+
     this.update = function () {
         self.node.Rot.Y = (self.node.Rot.Y + self.rotSpeed) % 360;
         self.updateDirection();
         if (self.node.Rot.Y < self.rotRange.min || self.node.Rot.Y > self.rotRange.max)
             self.rotSpeed = -self.rotSpeed;
         else if (self.isShooting)
-            ;// shoot(self, self.node.Pos.clone(), self.direction.clone(), this.bulletBounds);
+            shoot(self, self.node.Pos.clone(), self.direction.clone(), this.bulletBounds);
     }
 }

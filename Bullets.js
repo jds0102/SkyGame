@@ -11,6 +11,8 @@ function Bullet1(pos, vel) {
     this.shooter = null;
     this.rangeBound = null;
 
+    this.damage = 1;
+
     this.velocity = vel.multiplyWithScal(this.speed);
     //alert(this.velocity);
     this.update = function () {
@@ -42,13 +44,13 @@ function updateBullets() {
 }
 
 function updateForCollisions() {
-    for (var i = bullets.length-1; i >=0 ; i--) {
-        for ( var j = shootables.length-1; j >=0 ; j--) {
-            if (bullets[i].node.getBoundingBox().intersectsWithBox(shootables[j].node.getBoundingBox())) 
-            {
-                alert(i+" "+j);
-                //scene.getRootSceneNode().removeChild(bullets[i].node);            
-                //bullets.splice(i, 1);
+    for (var i = shootables.length - 1; i >= 0; i--) {
+        for (var j = bullets.length - 1; j >= 0; j--) {        
+            if (shootables[i] && shootables[i].node.getTransformedBoundingBox().intersectsWithBox(bullets[j].node.getTransformedBoundingBox())) {
+                shootables[i].gotShot(bullets[j].shooter, bullets[j]);
+                scene.getRootSceneNode().removeChild(bullets[j].node);
+                bullets.splice(j, 1);
+                
             }
         }
 

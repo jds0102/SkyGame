@@ -20,6 +20,8 @@ function Airship(name) {
     this.stars = 0;
     this.coins = 0;
 
+    this.invunrable = false;
+
     this.handleInput = function () {
         var left = self.direction.crossProduct(new CL3D.Vect3d(0, 1, 0));
         var rot = self.direction.getHorizontalAngle();
@@ -152,6 +154,11 @@ function Airship(name) {
 	this.animator = new CL3D.Animator();
 	this.node.addAnimator(this.animator);
 
+	this.gotShot = function (shooter, bullet) {
+	    if (shooter != self && !self.invunerable) {
+	        self.decreaseHealth(bullet.damage);
+	    }
+	}
 	
 }
 

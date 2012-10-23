@@ -13,8 +13,8 @@ document.body.style.overflow = "hidden";
 function update() {
     player.update();
     updateWorld();
-    updateBullets();
     enemy.update();
+    updateBullets();
     updateForCollisions();
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
