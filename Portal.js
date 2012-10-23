@@ -9,7 +9,7 @@ createVertex = function (x, y, z) {
     return vtx;
 }
 
-Portal = function () {
+Portal = function (pos, rot) {
     var self = this;
     this.init();  // init scene node specific members
 
@@ -18,20 +18,29 @@ Portal = function () {
     this.mesh = new CL3D.Mesh();
     var buf = new CL3D.MeshBuffer();
     this.mesh.AddMeshBuffer(buf);
-    // set indices and vertices
+    // set indices and verticesaa
 
     buf.Indices = [3, 1, 0, 2, 1, 3];
+    var rotMat = new CL3D.Matrix4(true);
+    rotMat.setRotationDegrees(rot);
 
-    buf.Vertices.push(createVertex(100, 100, 0));
-    buf.Vertices.push(createVertex(-100, 100, 0));
-    buf.Vertices.push(createVertex(-100, -100, 0));
-    buf.Vertices.push(createVertex(100, -100, 0));
+    var tempVect = new CL3D.Vect3d(100, 100, 0);
+    rotMat.rotateVect(tempVect);
+    buf.Vertices.push(createVertex(pos.X + tempVect.X, pos.Y + tempVect.Y, pos.Z + tempVect.Z));
 
-//    self.material = new CL3D.Material();
-//    self.material.setFrom(player.node.getMaterial(0));
-//    self.material.BackFaceCulling = false;
+    alert(pos.X + tempVect.X);
+
+    buf.Vertices.push(createVertex(pos.X - tempVect.X, pos.Y + tempVect.Y, pos.Z - tempVect.Z));
+
+    buf.Vertices.push(createVertex(pos.X - tempVect.X, pos.Y - tempVect.Y, pos.Z - tempVect.Z));
+
+    buf.Vertices.push(createVertex(pos.X + tempVect.X, pos.Y - tempVect.Y, pos.Z + tempVect.Z));
+
+    self.material = newMaterialType;
+    //self.material.setFrom(player.node.getMaterial(0));
+    //self.material.BackFaceCulling = false;
     // set the texture of the material
-    
+
     //buf.Mat.Tex1 = engine.getTextureManager().getTexture("test.jpg", true);
 }
 	Portal.prototype = new CL3D.SceneNode(); // derive from SceneNode

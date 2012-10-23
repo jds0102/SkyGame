@@ -47,9 +47,9 @@ function initWorld() {
 	player = new Airship(AIRSHIP, scene);
 	player.node.Pos = new CL3D.Vect3d(0, 0, 25);
 
-//	for (var i = 0; i < player.node.getMaterialCount(); i++ ) {
-//	    player.node.getMaterial(i).Type = newMaterialType;
-//	}
+	for (var i = 0; i < player.node.getMaterialCount(); i++ ) {
+        player.node.getMaterial(i).Type = newMaterialType;
+    }
 
 	worldBox.addInternalPoint(500, 0, 0);
 	worldBox.addInternalPoint(-500, 0, 0);
@@ -58,9 +58,8 @@ function initWorld() {
 	worldBox.addInternalPoint(0, 0, 1000);
 	worldBox.addInternalPoint(0, 0, 0);
 
-	portal = new Portal();
-	scene.getRootSceneNode().addChild(portal);
-	portal.Visible = false;
+	
+	//portal.Visible = false;
     
 	//asteroid = new Asteroid(ASTEROIDS[0], new CL3D.Vect3d(0, 0, 0));
 	var i = 1;
@@ -74,7 +73,14 @@ function initWorld() {
 	    else haveMoreAirStreams = false;
 	}while (haveMoreAirStreams);
     //alert(airstreams[0].node.Rot);
-    //alert(airstreams[1].node.Rot);
+	//alert(airstreams[1].node.Rot);
+
+	var mat = new CL3D.Matrix4(true);
+	portal = new Portal(airstreams[airstreams.length - 1].node.Pos, airstreams[airstreams.length - 1].node.Rot);
+	//portal = new Portal(new CL3D.Vect3d(0, 0, 0));
+	//qwportal.Rot = airstreams[airstreams.length - 1].node.Rot;
+	scene.getRootSceneNode().addChild(portal);
+	
 	
     worldAnimator = new CL3D.Animator();
     worldAnimator.onMouseDown = onMouseDownWorld;
