@@ -13,16 +13,19 @@ document.body.style.overflow = "hidden";
 function update() {
     player.update();
     updateWorld();
+    enemy.update();
     updateBullets();
+    updateForCollisions();
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
 	shipLookAt.normalize();
-	shipLookAt.multiplyThisWithScal(12);
+	shipLookAt.multiplyThisWithScal(18);
 	camPos.substractFromThis(shipLookAt);
 	camPos.Y += 25;
 	scene.getActiveCamera().Pos = camPos;
 	//light.Pos = scene.getActiveCamera().Pos;
-    camAnimator.lookAt(player.node.Pos);
+    //camAnimator.lookAt(player.node.Pos);
+    camAnimator.lookAt(player.node.Pos.add(new CL3D.Vect3d(0,15,0)));
 }
 
 // this is called when loading the 3d scene has finished
@@ -47,9 +50,17 @@ engine.OnLoadingComplete = function () {
         //camAnimator.setMayMove(false);
         camAnimator.lookAt(player.node.Pos);
 
-        light = scene.getSceneNodeFromName('Light1');
-        //light.Pos = scene.getActiveCamera().Pos;
 
+        light1 = new CL3D.LightSceneNode();
+        light2 = new CL3D.LightSceneNode();
+        scene.getActiveCamera().addChild(light1);
+        scene.getActiveCamera().addChild(light2);
+        //scene.getRootSceneNode().addChild(light);
+        light1.Pos = scene.getActiveCamera().Pos.add(new CL3D.Vect3d(0, -100, 0));
+        light2.Pos = scene.getActiveCamera().Pos.add(new CL3D.Vect3d(0, 150, 0));
+        light1.Attenuation = Infinity;// = light2.Attenuation = Infinity;
+
+        scene.AmbientLight.R = scene.AmbientLight.G = scene.AmbientLight.B = 0.5;
 
         engine.OnAnimate = update;
 

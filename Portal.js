@@ -28,8 +28,6 @@ Portal = function (pos, rot) {
     rotMat.rotateVect(tempVect);
     buf.Vertices.push(createVertex(pos.X + tempVect.X, pos.Y + tempVect.Y, pos.Z + tempVect.Z));
 
-    alert(pos.X + tempVect.X);
-
     buf.Vertices.push(createVertex(pos.X - tempVect.X, pos.Y + tempVect.Y, pos.Z - tempVect.Z));
 
     buf.Vertices.push(createVertex(pos.X - tempVect.X, pos.Y - tempVect.Y, pos.Z - tempVect.Z));

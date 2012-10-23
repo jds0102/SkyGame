@@ -6,7 +6,7 @@ function Airship(name) {
 	this.velocity = new CL3D.Vect3d(0,0,0);
 	this.direction = new CL3D.Vect3d(0, 0, 1);
 
-	this.speed = .5;
+	this.speed = 1;
 	this.hzSpeed = 0.5;
 	this.rotSpeed = 3;
     this.dragFactor = 0.98;
@@ -20,43 +20,9 @@ function Airship(name) {
     this.stars = 0;
     this.coins = 0;
 
-    this.update = function () {
-        if (paused) {
-            return;
-        }
+    this.invunrable = false;
 
-        if (airstreams) {
-            var insideStream = false;
-            if (self.curStreamIndex < airstreams.length - 1 && airstreams[self.curStreamIndex].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
-                insideStream = true;
-                if (self.toTurn && self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed < 0.95) {
-                    //alert(self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed);
-                    self.velocity.multiplyThisWithScal(1 - self.turnFactor);
-                    self.velocity.addToThis(airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed * self.turnFactor));
-                }
-                else
-                    self.velocity = airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed);
-
-            }
-            else if (self.curStreamIndex < airstreams.length - 2 && airstreams[self.curStreamIndex + 1].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
-                self.curStreamIndex++;
-                insideStream = true;
-            }
-            else {
-                for (var i = airstreams.length - 1; i >= 0; i--) {
-                    if (airstreams[i].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
-                        self.velocity = airstreams[i].direction.multiplyWithScal(self.speed);
-                        insideStream = true;
-                        break;
-                    }
-                }
-            }
-            if (!insideStream) {
-                self.velocity.multiplyThisWithScal(self.dragFactor);
-            }
-        }
-        self.node.Pos.addToThis(self.velocity);
-
+    this.handleInput = function () {
         var left = self.direction.crossProduct(new CL3D.Vect3d(0, 1, 0));
         var rot = self.direction.getHorizontalAngle();
         left.multiplyThisWithScal(self.hzSpeed);
@@ -81,7 +47,53 @@ function Airship(name) {
             self.node.Pos.addToThis(left.multiplyWithScal(-1));
 
         if (KB.isKeyDown[' '] && player.node)
-            bullets.push(new Bullet1(self.node.Pos.clone(), self.direction.clone())); 
+            shoot(self, self.node.Pos.clone(), self.direction.clone()); 
+
+    }
+
+    this.updateVelocity  = function () {
+        var insideStream = false;
+        if (self.curStreamIndex < airstreams.length - 1 && airstreams[self.curStreamIndex].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
+            insideStream = true;
+            if (self.toTurn && self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed < 0.95) {
+                //alert(self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed);
+                self.velocity.multiplyThisWithScal(1 - self.turnFactor);
+                self.velocity.addToThis(airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed * self.turnFactor));
+            }
+            else
+                self.velocity = airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed);
+
+        }
+        else if (self.curStreamIndex < airstreams.length - 2 && airstreams[self.curStreamIndex + 1].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
+            self.curStreamIndex++;
+            insideStream = true;
+        }
+        else {
+            for (var i = airstreams.length - 1; i >= 0; i--) {
+                if (airstreams[i].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
+                    self.velocity = airstreams[i].direction.multiplyWithScal(self.speed);
+                    insideStream = true;
+                    break;
+                }
+            }
+        }
+        if (!insideStream) {
+            self.velocity.multiplyThisWithScal(self.dragFactor);
+        }
+    }
+
+    this.update = function () {
+        if (paused) {
+            return;
+        }
+
+        if (airstreams) {
+            self.updateVelocity();
+        }
+
+        self.node.Pos.addToThis(self.velocity);
+
+        self.handleInput();
 
         var mat = new CL3D.Matrix4(true);
         mat.setRotationDegrees(self.node.Rot);
@@ -107,11 +119,15 @@ function Airship(name) {
         }
 
         for (var i = 0; i < asteroids.length; i++) {
-            if (this.node.getTransformedBoundingBox().intersectsWithBox(asteroids[i].node.getTransformedBoundingBox()) && asteroids[i].node.Visible == true) {
+            if (self.node.getTransformedBoundingBox().intersectsWithBox(asteroids[i].node.getTransformedBoundingBox()) && asteroids[i].node.Visible == true) {
                 asteroids[i].node.Visible = false;
                 self.decreaseHealth(25);
             }
         }
+
+//        if (self.node.getTransformedBoundingBox().intersectsWithBox(portal.getTransformedBoundingBox())) {
+//            alert("You Win");
+//        }
 
     }
 
@@ -124,41 +140,6 @@ function Airship(name) {
 	        ;
 	    }
 	}
-//	this.onKeyDown = function (event) {
-//	    var key = String.fromCharCode(event.keyCode);
-//	    var left = self.direction.crossProduct(new CL3D.Vect3d(0, 1, 0));
-
-//	    var rot = self.direction.getHorizontalAngle();
-
-//	    left.multiplyThisWithScal(self.hzSpeed);
-//	    if (key == 'W' && player.node)
-//	        self.node.Pos.addToThis(self.direction);
-
-//	    if (key == 'Q' && player.node) {
-//	        self.node.Rot.Y -= self.rotSpeed;
-//	    }
-
-//	    if (key == 'E' && player.node) {
-//	        self.node.Rot.Y += self.rotSpeed; ;
-//	    }
-
-//	    if (key == 'A' && player.node)
-//	        self.node.Pos.addToThis(left);
-
-//	    if (key == 'S' && player.node)
-//	        self.node.Pos.substractFromThis(self.direction); ;
-
-//	    if (key == 'D' && player.node)
-//	        self.node.Pos.addToThis(left.multiplyWithScal(-1));
-
-//	    var mat = new CL3D.Matrix4(true);
-//	    mat.setRotationDegrees(self.node.Rot);
-//	    self.direction.X = 0;
-//	    self.direction.Y = 0;
-//	    self.direction.Z = 1;
-//	    mat.rotateVect(self.direction);
-
-//	}	
 
     this.increaseHealth = function (value) {
         self.health = Math.min(100, self.health + value);
@@ -177,6 +158,11 @@ function Airship(name) {
 	this.animator = new CL3D.Animator();
 	this.node.addAnimator(this.animator);
 
+	this.gotShot = function (shooter, bullet) {
+	    if (shooter != self && !self.invunerable) {
+	        self.decreaseHealth(bullet.damage);
+	    }
+	}
 	
 }
 
