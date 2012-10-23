@@ -1,13 +1,13 @@
 function Bullet1(pos, vel) {
     var self = this;
-    this.node = scene.getSceneNodeFromName('health1').createClone(scene.getSceneNodeFromName('health1').getParent());
+    this.node = scene.getSceneNodeFromName('bullet1').createClone(scene.getSceneNodeFromName('bullet1').getParent());
     scene.getRootSceneNode().addChild(this.node);
     this.node.Visible = true;
     this.type = "Bullet1";
     this.node.Pos = pos;
     this.node.scale = new CL3D.Vect3d(0.5, 0.5, 0.5);
     this.speed = 10;
-
+    this.node.Scale = new CL3D.Vect3d(1.2, 1.2, 1.2);
     this.shooter = null;
 
     this.velocity = vel.multiplyWithScal(this.speed);

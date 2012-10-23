@@ -6,8 +6,35 @@ function EnemyTower() {
     this.type = "ETower";
     
     this.node.scale = new CL3D.Vect3d(0.5, 0.5, 0.5);
-    
+
+    this.rotRange = { min : 10, max : 20};
+    this.rotSpeed = 0.1;
+    this.direction = new CL3D.Vect3d(0, 0, 1);
+    this.node.Rot.Y = this.rotRange.min;
+
+    this.isShooting = true;
+
+
+    this.toggleShooting = function () {
+        self.isShooting = !self.isShooting;
+    }
+
+    setInterval(this.toggleShooting, 2000);
+
+
+    this.updateDirection = function () {
+        var mat = new CL3D.Matrix4(true);
+        mat.setRotationDegrees(self.node.Rot);
+        self.direction = new CL3D.Vect3d(0, 0, 1);
+        mat.rotateVect(self.direction);
+    }
+
     this.update = function () {
-        shoot(self, self.node.Pos.clone(), new CL3D.Vect3d(0,0,1));
+        self.node.Rot.Y = (self.node.Rot.Y + self.rotSpeed) % 360;
+        self.updateDirection();
+        if (self.node.Rot.Y < self.rotRange.min || self.node.Rot.Y > self.rotRange.max)
+            self.rotSpeed = -self.rotSpeed;
+        else if ( self.isShooting) 
+            shoot(self, self.node.Pos.clone(), self.direction.clone());
     }
 }

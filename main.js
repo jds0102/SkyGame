@@ -48,10 +48,16 @@ engine.OnLoadingComplete = function () {
         //camAnimator.setMayMove(false);
         camAnimator.lookAt(player.node.Pos);
 
-        //light = new CL3D.LightSceneNode();
-        //scene.getActiveCamera().addChild(light);
-        //light.Pos = scene.getActiveCamera().Pos;
+        light1 = new CL3D.LightSceneNode();
+        light2 = new CL3D.LightSceneNode();
+        scene.getActiveCamera().addChild(light1);
+        scene.getActiveCamera().addChild(light2);
+        //scene.getRootSceneNode().addChild(light);
+        light1.Pos = scene.getActiveCamera().Pos.add(new CL3D.Vect3d(0, -100, 0));
+        light2.Pos = scene.getActiveCamera().Pos.add(new CL3D.Vect3d(0, 150, 0));
+        light1.Attenuation = Infinity;// = light2.Attenuation = Infinity;
 
+        scene.AmbientLight.R = scene.AmbientLight.G = scene.AmbientLight.B = 0.5;
 
         engine.OnAnimate = update;
 
