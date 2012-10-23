@@ -15,7 +15,7 @@ var floorPlane;
 var hud;
 
 
-var worldTimer = 0;
+var levelTimer = 30;
 
 var selectedObject = null;
 
@@ -139,10 +139,6 @@ function initWorld() {
 
 function updateWorld() {
     hud.update();
-
-    worldTimer = new Date().getTime() - scene.getStartTime();
-
-    
 }
 
 

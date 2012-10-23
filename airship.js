@@ -18,7 +18,7 @@ function Airship(name) {
     this.health = 100;
     this.mana = 100;
     this.stars = 0;
-    this.coins = 0;
+    this.coins = 10;
 
     this.invunrable = false;
 
@@ -47,7 +47,23 @@ function Airship(name) {
             self.node.Pos.addToThis(left.multiplyWithScal(-1));
 
         if (KB.isKeyDown[' '] && player.node)
-            shoot(self, self.node.Pos.clone(), self.direction.clone()); 
+            shoot(self, self.node.Pos.clone(), self.direction.clone());
+
+        if (KB.isKeyDown['1'] && player.node && self.coins >= 10) {
+            self.invunrable = true;
+            self.coins -= 10;
+            setTimeout(self.resetInvulnerability, 5000);
+        }
+
+        if (KB.isKeyDown['2'] && player.node && self.coins >= 5) {
+            self.coins -= 5;
+            //slow time
+        }
+
+        if (KB.isKeyDown['3'] && player.node && self.coins >= 5) {
+            self.coins -= 5;
+            //create pulse
+        }
 
     }
 
@@ -141,12 +157,14 @@ function Airship(name) {
 	    }
 	}
 
-    this.increaseHealth = function (value) {
-        self.health = Math.min(100, self.health + value);
-    }
+	this.increaseHealth = function (value) {
+	    self.health = Math.min(100, self.health + value);
+	}
 
     this.decreaseHealth = function (value) {
-        self.health = Math.max(0, self.health - value);
+        if (!self.invunrable) {
+            self.health = Math.max(0, self.health - value);
+        }
     }
 
     this.increaseMana = function (value) {
@@ -162,6 +180,10 @@ function Airship(name) {
 	    if (shooter != self && !self.invunerable) {
 	        self.decreaseHealth(bullet.damage);
 	    }
+	}
+
+	this.resetInvulnerability = function () {
+	    self.invunrable = false;
 	}
 	
 }
