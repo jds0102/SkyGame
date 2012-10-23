@@ -1,6 +1,6 @@
 function EnemyTower() {
     var self = this;
-    this.node = scene.getSceneNodeFromName('ship').createClone(scene.getSceneNodeFromName('ship').getParent());
+    this.node = scene.getSceneNodeFromName('etower').createClone(scene.getSceneNodeFromName('ship').getParent());
     scene.getRootSceneNode().addChild(this.node);
     this.node.Visible = true;
     this.type = "ETower";

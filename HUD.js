@@ -28,10 +28,10 @@ function HUD() {
 
 	healthBarHeader = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(healthBarHeader);
-	healthBarHeader.set2DPosition(5, 5, 150, 20);
+	healthBarHeader.set2DPosition(5, 5, 150, 50);
 	healthBarHeader.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
 	healthBarHeader.FontName = "12;default;arial;normal;bold;true";
-	healthBarHeader.setText("Health");
+	healthBarHeader.setText("Health asDLasd aSDasd asDasd aSDasd ");
 
 	healthBar = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(healthBar);
