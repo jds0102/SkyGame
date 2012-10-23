@@ -139,3 +139,13 @@ function HUD() {
 	    }
 	}
 }
+
+function hideChat() {
+    document.getElementById('chat').style.display = "none";
+}
+
+function chat(person, text) {
+    document.getElementById('chat').style.display = "block";
+    document.getElementById('chat').innerHTML = text;
+    setTimeout(hideChat, 3000);
+}
