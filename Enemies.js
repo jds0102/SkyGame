@@ -4,7 +4,7 @@ function EnemyTower() {
     scene.getRootSceneNode().addChild(this.node);
     this.node.Visible = true;
     this.type = "ETower";
-    
+    this.node.Pos = new CL3D.Vect3d(50, 0, 50);
     this.node.scale = new CL3D.Vect3d(0.5, 0.5, 0.5);
 
     this.rotRange = { min : 10, max : 20};
@@ -14,6 +14,12 @@ function EnemyTower() {
 
     this.isShooting = true;
 
+    this.bulletBounds = new CL3D.Box3d();
+    this.bulletBounds.addInternalPointByVector(this.node.Pos);
+    this.bulletBounds.addInternalPointByVector(this.node.Pos.add(new CL3D.Vect3d(100,0,0)));
+    this.bulletBounds.addInternalPointByVector(this.node.Pos.add(new CL3D.Vect3d(-100,0,0)));
+    this.bulletBounds.addInternalPointByVector(this.node.Pos.add(new CL3D.Vect3d(0, 0, 100)));
+    this.bulletBounds.addInternalPointByVector(this.node.Pos.add(new CL3D.Vect3d(0, 0, -100)));
 
     this.toggleShooting = function () {
         self.isShooting = !self.isShooting;
@@ -34,7 +40,7 @@ function EnemyTower() {
         self.updateDirection();
         if (self.node.Rot.Y < self.rotRange.min || self.node.Rot.Y > self.rotRange.max)
             self.rotSpeed = -self.rotSpeed;
-        else if ( self.isShooting) 
-            shoot(self, self.node.Pos.clone(), self.direction.clone());
+        else if (self.isShooting)
+            ;// shoot(self, self.node.Pos.clone(), self.direction.clone(), this.bulletBounds);
     }
 }

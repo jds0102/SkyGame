@@ -15,6 +15,7 @@ function update() {
     updateWorld();
     updateBullets();
     enemy.update();
+    updateForCollisions();
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
 	shipLookAt.normalize();

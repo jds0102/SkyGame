@@ -8,9 +8,13 @@ var player = null, asteroid;
 var airstreams = [];
 var collectibles = [];
 var asteroids = [];
+var enemies = [];
+var shootables = new Array();
 var portal;
 var floorPlane;
 var hud;
+
+
 var worldTimer = 0;
 
 var selectedObject = null;
@@ -47,7 +51,8 @@ function initWorld() {
 	player = new Airship(AIRSHIP, scene);
 	player.node.Pos = new CL3D.Vect3d(0, 0, 25);
 
-    enemy = new EnemyTower();
+	enemy = new EnemyTower();
+	enemies.push(enemy);
 
 //	for (var i = 0; i < player.node.getMaterialCount(); i++ ) {
 //	    player.node.getMaterial(i).Type = newMaterialType;
@@ -124,7 +129,12 @@ function initWorld() {
 	    i++;
 	}
 
-
+	//once all the objects are loaded, add all the shootable objects to one arrays
+	shootables.push(player);
+	for (var i = 0; i < asteroids.length; i++)
+	    shootables.push(asteroids[i]);
+	for (var i = 0; i < enemies.length; i++)
+	    shootables.push(enemies[i]);
 
 }
 
