@@ -31,7 +31,7 @@ function hideSceneObjects() {
 }
 
 function onMouseDownWorld(event) {
-	//alert("clickworld" + event.button);
+    //alert("clickworld" + event.button);
 	clickedButton = event.button;
 	x = engine.getMousePosXFromEvent(event);
 	y = engine.getMousePosYFromEvent(event);
@@ -41,7 +41,11 @@ function onMouseDownWorld(event) {
 	line.Start = c;
 	line.End = target;
 	var cpoint = new CL3D.MeshTriangleSelector(floorPlane.mesh, floorPlane).getCollisionPointWithLine(line.Start, line.End, false, null, false);
-	clickedWorld2dPos = cpoint.clone();
+
+	if (event.button == 0) {
+	    player.mouseDown(x,y);
+	}
+	
 	
 	
 }

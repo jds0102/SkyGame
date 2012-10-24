@@ -149,3 +149,5 @@ function chat(person, text) {
     document.getElementById('chat').innerHTML = text;
     setTimeout(hideChat, 3000);
 }
+
+

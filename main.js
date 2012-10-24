@@ -23,9 +23,9 @@ function update() {
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
 	shipLookAt.normalize();
-	shipLookAt.multiplyThisWithScal(18);
+	shipLookAt.multiplyThisWithScal(15);
 	camPos.substractFromThis(shipLookAt);
-	camPos.Y += 25;
+	camPos.Y += 21;
 	scene.getActiveCamera().Pos = camPos;
 	//light.Pos = scene.getActiveCamera().Pos;
     //camAnimator.lookAt(player.node.Pos);

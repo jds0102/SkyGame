@@ -17,10 +17,15 @@ function Airship(name) {
 
     this.health = 100;
     this.mana = 100;
+    this.lastManaUpdate = 0.0;
     this.stars = 0;
-    this.coins = 10;
+    this.coins = 100;
+    this.curPulse = null;
 
     this.invunrable = false;
+    scene.getSceneNodeFromName('forcefield1').Visible = false;
+    this.shield = scene.getSceneNodeFromName('forcefield1').createClone(this.node); ;
+    this.shield.Visible = false;
 
     this.handleInput = function () {
         var left = self.direction.crossProduct(new CL3D.Vect3d(0, 1, 0));
@@ -37,21 +42,33 @@ function Airship(name) {
         if (KB.isKeyDown['E'] && player.node) {
             self.node.Rot.Y += self.rotSpeed; ;
         }
-        if (KB.isKeyDown['A'] && player.node)
+
+        //This is the getString result of pressing left arrow
+        if (KB.isKeyDown['%'] && player.node)
             self.node.Pos.addToThis(left);
 
         if (KB.isKeyDown['S'] && player.node)
             self.node.Pos.substractFromThis(self.direction); ;
 
-        if (KB.isKeyDown['D'] && player.node)
+        //This is the getString result of pressing right arrow
+        if (KB.isKeyDown['\''] && player.node)
             self.node.Pos.addToThis(left.multiplyWithScal(-1));
 
-        if (KB.isKeyDown[' '] && player.node)
-            shoot(self, self.node.Pos.clone(), self.direction.clone());
+        if (KB.isKeyDown[' '] && player.node && self.mana > 0) {
+            var bulletBounds = new CL3D.Box3d();
+            bulletBounds.addInternalPointByVector(self.node.Pos);
+            bulletBounds.addInternalPointByVector(self.node.Pos.add(new CL3D.Vect3d(100, 0, 0)));
+            bulletBounds.addInternalPointByVector(self.node.Pos.add(new CL3D.Vect3d(-100, 0, 0)));
+            bulletBounds.addInternalPointByVector(self.node.Pos.add(new CL3D.Vect3d(0, 0, 100)));
+            bulletBounds.addInternalPointByVector(self.node.Pos.add(new CL3D.Vect3d(0, 0, -100)));
+            shoot(self, self.node.Pos.clone(), self.direction.clone(), bulletBounds);
+            self.mana -= 6;
+        }
 
-        if (KB.isKeyDown['1'] && player.node && self.coins >= 10) {
+        if (KB.isKeyDown['1'] && player.node && self.coins >= 10 && self.invunrable == false) {
             self.invunrable = true;
             self.coins -= 10;
+            self.shield.Visible = true;
             setTimeout(self.resetInvulnerability, 5000);
         }
 
@@ -60,9 +77,9 @@ function Airship(name) {
             //slow time
         }
 
-        if (KB.isKeyDown['3'] && player.node && self.coins >= 5) {
+        if (KB.isKeyDown['3'] && player.node && self.coins >= 5 && self.curPulse == null) {
             self.coins -= 5;
-            //create pulse
+            self.curPulse = new Pulse(self.node.Pos);
         }
 
     }
@@ -141,9 +158,20 @@ function Airship(name) {
             }
         }
 
-//        if (self.node.getTransformedBoundingBox().intersectsWithBox(portal.getTransformedBoundingBox())) {
-//            alert("You Win");
-//        }
+        //Increase the mana at 1 mana per second
+        var date = new Date()
+        if (date.getTime() - self.lastManaUpdate > 1.5 && !KB.isKeyDown[' ']) {
+            self.lastManaUpdate = date.getTime();
+            self.increaseMana(1);
+        }
+
+        //        if (self.node.getTransformedBoundingBox().intersectsWithBox(portal.getTransformedBoundingBox())) {
+        //            alert("You Win");
+        //        }
+
+        //        if (self.curPulse != null && self.curPulse.node.Visible == false) {
+        //            self.curPulse = null;
+        //        }
 
     }
 
@@ -184,8 +212,26 @@ function Airship(name) {
 
 	this.resetInvulnerability = function () {
 	    self.invunrable = false;
+	    self.shield.Visible = false;
 	}
-	
+
+	this.mouseDown = function (x, y) {
+//	    if (x < 95 && x > 0) {
+//	        if (y > 200 && y < 290 && player.node && self.coins >= 10) {
+//	            self.invunrable = true;
+//	            self.coins -= 10;
+//	            setTimeout(self.resetInvulnerability, 5000);
+//	        } else if (y > 300 && y < 390 && player.node && self.coins >= 5) {
+//	            self.coins -= 5;
+//	            //slow time
+//	        } else if (y > 400 && y < 490 && self.coins >= 5 && self.curPulse == null) {
+//	            self.coins -= 5;
+//	            self.curPulse = new Pulse(self.node.Pos);
+//	        }
+//	    }
+	}
+
 }
+
 
 

@@ -49,4 +49,8 @@ function EnemyTower() {
         else if (self.isShooting)
             shoot(self, self.node.Pos.clone(), self.direction.clone(), this.bulletBounds);
     }
+
+    this.pulseHit = function () {
+
+    }
 }

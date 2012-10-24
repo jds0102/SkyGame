@@ -5,6 +5,7 @@ function Asteroid(name, position) {
     this.node.Scale = new CL3D.Vect3d(5, 5, 5);
     this.destroyable = true;
 
+
     this.health = 100;
 
     //this.node.Scale = new CL3D.Vect3d(10, 10, 10);
@@ -27,6 +28,12 @@ function Asteroid(name, position) {
                 asteroids.splice(asteroids.indexOf(self), 1);
             }
         }
+    }
+
+    this.pulseHit = function () {
+        scene.getRootSceneNode().removeChild(self.node);
+        self.node.Visible = false;
+        asteroids.splice(asteroids.indexOf(self), 1);
     }
 
 	//this.clickAnimator = new CL3D.AnimatorOnClick(scene, engine, this.onClick);
