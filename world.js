@@ -47,7 +47,7 @@ function onMouseDownWorld(event) {
 
 function initWorld() {
 	player = new Airship(AIRSHIP, scene);
-	player.node.Pos = new CL3D.Vect3d(0, 0, 25);
+	player.node.Pos = new CL3D.Vect3d(0, 0, -70);
 
 	enemy = new EnemyTower();
 	enemies.push(enemy);

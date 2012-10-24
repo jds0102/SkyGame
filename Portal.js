@@ -1,10 +1,12 @@
-var portalShader;
 
-createVertex = function (x, y, z) {
+
+createVertex = function (x, y, z, s, t) {
     var vtx = new CL3D.Vertex3D(true);
     vtx.Pos.X = x;
     vtx.Pos.Y = y;
     vtx.Pos.Z = z;
+    vtx.TCoords.X = s;
+    vtx.TCoords.Y = t;
     vtx.Color = CL3D.createColor(255,255,0,255);
     return vtx;
 }
@@ -12,10 +14,10 @@ createVertex = function (x, y, z) {
 Portal = function (pos, rot) {
     var self = this;
     this.init();  // init scene node specific members
-    this.Pos = pos;
-    this.Rot = rot;
-    this.length = 50;
-    this.height = 50;
+    //this.Pos = pos;
+    //this.Rot = rot;
+    this.size = 50;
+    this.initShader();
 
     // create a 3d mesh with one mesh buffer
     this.mesh = new CL3D.Mesh();
@@ -24,14 +26,14 @@ Portal = function (pos, rot) {
 
     // set indices and verticesaa
     buf.Indices = [3, 1, 0, 2, 1, 3];
-    buf.Vertices.push(createVertex(50, 50, 0));
-    buf.Vertices.push(createVertex(-50, 50, 0));
-    buf.Vertices.push(createVertex(-50, -50, 0));
-    buf.Vertices.push(createVertex(50, -50, 0));
+    buf.Vertices.push(createVertex(50, 50, 0, 1,0));
+    buf.Vertices.push(createVertex(-50, 50, 0, 0,0));
+    buf.Vertices.push(createVertex(-50, -50, 0, 0,1));
+    buf.Vertices.push(createVertex(50, -50, 0, 1,1));
 
     buf.Mat = new CL3D.Material();
     //alert(buf.Mat.Type);
-    buf.Mat.Type = newMaterialType;
+    buf.Mat.Type = this.portalShaderType;
     buf.Mat.BackFaceCulling = false;
 
     this.mesh.AddMeshBuffer(buf);
@@ -58,32 +60,39 @@ Portal.prototype.initShader = function () {
         		   #ifdef GL_ES                    \n\
         		   precision highp float;          \n\
         		   #endif                          \n\
-                   uniform float some;             \
         		   uniform mat4 worldviewproj;     \
         		   attribute vec4 vPosition;       \
         		   attribute vec4 vNormal;         \
+		           attribute vec2 vTexCoord1;      \
+		           varying vec2 uv;       \
         		   void main()                     \
         		   {                               \
         			gl_Position = worldviewproj * vPosition;\
+                    uv = vTexCoord1.st;         \
         		   }";
 
     var fragment_shader_source = 
-
         "\
         #ifdef GL_ES                    \n\
         precision highp float;          \n\
         #endif                          \n\
-        uniform float some;             \
+        uniform float radius;             \
+        varying vec2 uv;       \
         \
         void main()                     \
         {                               \
-        gl_FragColor = vec4(some, 0.0, some, 1.0);  \
+        float nBands = 4.0;           \
+        float c = mod(uv.t, nBands);             \
+        if ( c < 1.0 ) \
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);  \
+        else \
+        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);  \
         }";
 
     renderer = engine.getRenderer();
-    newMaterialType = renderer.createMaterialType(vertex_shader_source, fragment_shader_source);
-    shader = renderer.getGLProgramFromMaterialType(newMaterialType);
-    shader.some = renderer.gl.getUniformLocation(shader, "some");
-    renderer.gl.uniform1f(shader.some, 1.0);
+    this.portalShaderType = renderer.createMaterialType(vertex_shader_source, fragment_shader_source);
+    shader = renderer.getGLProgramFromMaterialType(this.portalShaderType);
+    shader.radius = renderer.gl.getUniformLocation(shader, "radius");
+    renderer.gl.uniform1f(shader.radius, this.size);
 
 }

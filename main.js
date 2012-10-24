@@ -42,7 +42,7 @@ engine.OnLoadingComplete = function () {
         hideSceneObjects();
         initWorld();
 
-        init_shaders();
+        
         // also, force the 3d engine to update the scene every frame
         scene.setRedrawMode(CL3D.Scene.REDRAW_EVERY_FRAME);
 
@@ -74,8 +74,4 @@ engine.OnLoadingComplete = function () {
 
 
     }
-}
-
-function init_shaders() {
-    portal.initShader();
 }

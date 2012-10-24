@@ -2,7 +2,7 @@ function Airship(name) {
     var self = this;
     this.node = scene.getSceneNodeFromName(name); //.createClone(scene.getSceneNodeFromName(name).getParent());
 	this.node.Visible = true;
-
+	
 	this.velocity = new CL3D.Vect3d(0,0,0);
 	this.direction = new CL3D.Vect3d(0, 0, 1);
 
