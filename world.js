@@ -41,9 +41,7 @@ function onMouseDownWorld(event) {
 	line.Start = c;
 	line.End = target;
 	var cpoint = new CL3D.MeshTriangleSelector(floorPlane.mesh, floorPlane).getCollisionPointWithLine(line.Start, line.End, false, null, false);
-	clickedWorld2dPos = cpoint.clone();
-	
-	
+	clickedWorld2dPos = cpoint.clone();	
 }
 
 
@@ -75,11 +73,9 @@ function initWorld() {
             i++;
         }
 	    else haveMoreAirStreams = false;
-	}while (haveMoreAirStreams);
-    //alert(airstreams[0].node.Rot);
-	//alert(airstreams[1].node.Rot);
+	} while (haveMoreAirStreams);
 
-	portal = new Portal(airstreams[airstreams.length - 1].node.Pos, airstreams[airstreams.length - 1].node.Rot);
+	portal = new Portal(airstreams[airstreams.length - 1].node.Pos.add(new CL3D.Vect3d), airstreams[airstreams.length - 1].node.Rot);
 	scene.getRootSceneNode().addChild(portal);
 	
 	

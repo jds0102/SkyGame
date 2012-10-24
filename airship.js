@@ -56,13 +56,11 @@ function Airship(name) {
         if (self.curStreamIndex < airstreams.length - 1 && airstreams[self.curStreamIndex].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
             insideStream = true;
             if (self.toTurn && self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed < 0.95) {
-                //alert(self.velocity.dotProduct(airstreams[self.curStreamIndex].direction) / player.speed);
                 self.velocity.multiplyThisWithScal(1 - self.turnFactor);
                 self.velocity.addToThis(airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed * self.turnFactor));
             }
             else
                 self.velocity = airstreams[self.curStreamIndex].direction.multiplyWithScal(self.speed);
-
         }
         else if (self.curStreamIndex < airstreams.length - 2 && airstreams[self.curStreamIndex + 1].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
             self.curStreamIndex++;
@@ -126,7 +124,7 @@ function Airship(name) {
         }
 
 //        if (self.node.getTransformedBoundingBox().intersectsWithBox(portal.getTransformedBoundingBox())) {
-//            alert("You Win");
+//            console.log("You Win");
 //        }
 
     }
