@@ -9,48 +9,22 @@
 	        var ratio = 1024 / 768;
 	        canvas.height = 768; //document.height;www
 	        canvas.width = 1024;//eeee canvas.height * ratio;
-	        
-	        //Remember to change the width of chatbox if canvas width is changed
 	    }
-	    
 	</script>
 	<script type="text/javascript" src="copperlichtdata/copperlicht.js"></script>
 	<style>
         .alert {
-            
-            /*border-radius: 10px;*/
-            display: block;
+            background-color: #FFFF73;
+            border-radius: 10px;
+            display: none;
             opacity: 0.6;
-            width : 1004px;
-            position: absolute;
-            bottom:0px;
-            /*height:auto;*/
+            width : 200px;
+            position:relative;
+            top:100px;
+            left:100px;
+            height:auto;
             padding: 10px;
             z-index: 100;
-        }
-        
-        #person{
-            
-            /*border-radius: 10px;*/
-            display: block;
-            
-            width : 150px;
-            position: absolute;
-            bottom:0px;
-            height:150px;
-            padding: 10px;
-            
-        }
-        
-        #person img{
-            width: 150px;
-            height: 130px;
-        }
-        
-        #canvasDiv{
-            margin:auto;
-            width:1024px;
-            height:768px;
         }
 
         
@@ -58,11 +32,8 @@
 </head>
 <body oncontextmenu = "return false;">
 	<div id="game" class="help_link" >
-		<div id = "canvasDiv" align="center" >
-		<!--
-            <div id="chat" class="alert"> Some Text that automatically geos to the lext lien blah blah blah</div>
-            <div id="person"><img src = "witch.png" ></div>
-            -->
+		<div align="center" >
+            <span id="chat" class="alert"> Some Text that automatically geos to the lext lien blah blah blah</span>
             <canvas id="3darea" style="background-color:#000000" ></canvas>
 		</div>
         <br />

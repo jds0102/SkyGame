@@ -5,9 +5,6 @@ function HUD() {
     this.manaBar, this.manaBarBackground, this.manaBarHeader;
     this.healthManaBackground, this.statBackground;
     this.gameTimer, this.timeLabel;
-    this.chat, this.chatBackground;
-    this.person, this.personBackground;
-    this.gameTimer;
     this.star, this.starCount;
     this.coin, this.coinCount;
     this.attack1, this.attack2, this.attack3;
@@ -122,23 +119,8 @@ function HUD() {
 	coinCount.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
 	coinCount.FontName = "24;default;arial;normal;bold;true";
 	coinCount.setText("0");
-	
-	//chat background
-    chatBackground = new CL3D.Overlay2DSceneNode(engine);
-    scene.getRootSceneNode().addChild(chatBackground);
-    chatBackground.set2DPosition(0, 650, 1024, 768);
-    chatBackground.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-    chatBackground.setShowImage(engine.getTextureManager().getTexture("chatBackgrd.png", true));
-	
-	//speaker background
-	
-	personBackground = new CL3D.Overlay2DSceneNode(engine);
-    scene.getRootSceneNode().addChild(personBackground);
-    personBackground.set2DPosition(0, 600, 200, 768);
-    personBackground.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	personBackground.setShowImage(engine.getTextureManager().getTexture("personBackgrd.png", true));
-	
-	
+
+
 	this.update = function () {
 	    self.healthBar.set2DPosition(7.5, 27.5, (player.health * 1.5), 25);
 	    self.manaBar.set2DPosition(7.5, 87.5, (player.mana * 1.5), 25);
@@ -155,41 +137,9 @@ function HUD() {
 	    }else {
 	        self.gameTimer.setText(timeToDisplay + ".00" + decimalToDisplay);
 	    }
-
-	    var convertTime = worldTimer / 1000;
-	    convertTime = Math.floor(convertTime);
-	    var timeToDisplay;
-	    if (convertTime < 10) {
-	        timeToDisplay = "0" + convertTime;
-	    } else {
-	        timeToDisplay = "" + convertTime;
-	    } 
-        
-	    self.gameTimer.setText(timeToDisplay + "");
-	    
-
 	}
-	
-	this.chatting = function(text, img){
-	    //speech
-	    chat = new CL3D.Overlay2DSceneNode(engine);
-        scene.getRootSceneNode().addChild(chat);
-        chat.set2DPosition(0, 350, 1024, 768);
-        chat.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-        chat.FontName = "24;default;arial;normal;bold;true";
-	    chat.setText(text);
-	    
-	    //speaker
-	    person = new CL3D.Overlay2DSceneNode(engine);
-        scene.getRootSceneNode().addChild(person);
-        person.set2DPosition(10, 600, 180, 750);
-        person.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-        person.setShowImage(engine.getTextureManager().getTexture(img, true));
-	}
-	
 }
 
-/*
 function hideChat() {
     document.getElementById('chat').style.display = "none";
 }
@@ -197,12 +147,7 @@ function hideChat() {
 function chat(person, text) {
     document.getElementById('chat').style.display = "block";
     document.getElementById('chat').innerHTML = text;
-
     setTimeout(hideChat, 3000);
 }
 
 
-
-    //setTimeout(hideChat, 3000);
-}
-*/

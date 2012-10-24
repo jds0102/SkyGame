@@ -141,11 +141,6 @@ function initWorld() {
 
 function updateWorld() {
     hud.update();
-
-    
-    worldTimer = new Date().getTime() - scene.getStartTime();
-
-    
 }
 
 
