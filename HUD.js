@@ -4,6 +4,8 @@ function HUD() {
     this.healthBar, this.healthBarBackground, this.healthBarHeader;
     this.manaBar, this.manaBarBackground, this.manaBarHeader;
     this.healthManaBackground, this.statBackground;
+    this.chat, this.chatBackground;
+    this.person, this.personBackground;
     this.gameTimer, this.timeLabel;
     this.star, this.starCount;
     this.coin, this.coinCount;
@@ -120,6 +122,20 @@ function HUD() {
 	coinCount.FontName = "24;default;arial;normal;bold;true";
 	coinCount.setText("0");
 
+    //chat background
+    chatBackground = new CL3D.Overlay2DSceneNode(engine);
+    scene.getRootSceneNode().addChild(chatBackground);
+    chatBackground.set2DPosition(0, 650, 1024, 768);
+    chatBackground.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+    chatBackground.setShowImage(engine.getTextureManager().getTexture("chatBackgrd.png", true));
+	
+	//speaker background
+	
+	personBackground = new CL3D.Overlay2DSceneNode(engine);
+    scene.getRootSceneNode().addChild(personBackground);
+    personBackground.set2DPosition(0, 600, 200, 768);
+    personBackground.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+	personBackground.setShowImage(engine.getTextureManager().getTexture("personBackgrd.png", true));
 
 	this.update = function () {
 	    self.healthBar.set2DPosition(7.5, 27.5, (player.health * 1.5), 25);
@@ -138,8 +154,26 @@ function HUD() {
 	        self.gameTimer.setText(timeToDisplay + ".00" + decimalToDisplay);
 	    }
 	}
+	
+	this.chatting = function(text, img){
+	    //speech
+	    chat = new CL3D.Overlay2DSceneNode(engine);
+        scene.getRootSceneNode().addChild(chat);
+        chat.set2DPosition(0, 350, 1024, 768);
+        chat.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+        chat.FontName = "24;default;arial;normal;bold;true";
+	    chat.setText(text);
+	    
+	    //speaker
+	    person = new CL3D.Overlay2DSceneNode(engine);
+        scene.getRootSceneNode().addChild(person);
+        person.set2DPosition(10, 600, 180, 750);
+        person.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+        person.setShowImage(engine.getTextureManager().getTexture(img, true));
+	}
 }
 
+/*
 function hideChat() {
     document.getElementById('chat').style.display = "none";
 }
@@ -149,5 +183,5 @@ function chat(person, text) {
     document.getElementById('chat').innerHTML = text;
     setTimeout(hideChat, 3000);
 }
-
+*/
 
