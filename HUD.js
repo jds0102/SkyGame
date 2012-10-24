@@ -64,13 +64,13 @@ function HUD() {
 	scene.getRootSceneNode().addChild(attack1);
 	attack1.set2DPosition(5, 200, 90, 90);
 	attack1.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	attack1.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
+	attack1.setShowImage(engine.getTextureManager().getTexture("invuln.png", true));
 
 	attack2 = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(attack2);
 	attack2.set2DPosition(5, 300, 90, 90);
 	attack2.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	attack2.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
+	attack2.setShowImage(engine.getTextureManager().getTexture("pulse.png", true));
 
 	attack3 = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(attack3);
@@ -121,7 +121,15 @@ function HUD() {
 	coinCount.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
 	coinCount.FontName = "24;default;arial;normal;bold;true";
 	coinCount.setText("0");
-
+    
+    //speech
+    chat = new CL3D.Overlay2DSceneNode(engine);
+    scene.getRootSceneNode().addChild(chat);
+    
+    //speaker
+    person = new CL3D.Overlay2DSceneNode(engine);
+    scene.getRootSceneNode().addChild(person);
+        
     //chat background
     chatBackground = new CL3D.Overlay2DSceneNode(engine);
     scene.getRootSceneNode().addChild(chatBackground);
@@ -157,6 +165,9 @@ function HUD() {
 	
 	this.chatting = function(text, img){
 	    //speech
+	    if(chat)
+	        scene.getRootSceneNode().removeChild(chat);
+	        
 	    chat = new CL3D.Overlay2DSceneNode(engine);
         scene.getRootSceneNode().addChild(chat);
         chat.set2DPosition(0, 350, 1024, 768);
@@ -165,11 +176,18 @@ function HUD() {
 	    chat.setText(text);
 	    
 	    //speaker
+	    if(person)
+	        scene.getRootSceneNode().removeChild(person);
+	    
 	    person = new CL3D.Overlay2DSceneNode(engine);
         scene.getRootSceneNode().addChild(person);
         person.set2DPosition(10, 600, 180, 750);
         person.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
         person.setShowImage(engine.getTextureManager().getTexture(img, true));
+	}
+	
+	this.rmvChat = function(object){
+	    ;
 	}
 }
 
