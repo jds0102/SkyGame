@@ -36,7 +36,9 @@ function update() {
 // this is called when loading the 3d scene has finished
 engine.OnLoadingComplete = function () {
     //context2d = document.getElementById('2dcanvas').getContext('2d');
-    chat("witch", "some text");
+
+    //chat("witch","some text");
+
     scene = engine.getScene();
     if (scene) {
         hideSceneObjects();
