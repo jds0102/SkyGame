@@ -70,13 +70,13 @@ function HUD() {
 	scene.getRootSceneNode().addChild(attack2);
 	attack2.set2DPosition(5, 300, 90, 90);
 	attack2.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	attack2.setShowImage(engine.getTextureManager().getTexture("pulse.png", true));
+	attack2.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
 
 	attack3 = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(attack3);
 	attack3.set2DPosition(5, 400, 90, 90);
 	attack3.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	attack3.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
+	attack3.setShowImage(engine.getTextureManager().getTexture("pulse.png", true));
 
     //Timer
 	gameTimer = new CL3D.Overlay2DSceneNode(engine);

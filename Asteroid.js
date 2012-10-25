@@ -4,7 +4,7 @@ function Asteroid(name, position) {
     this.node.Visible = true;
     this.node.Scale = new CL3D.Vect3d(5, 5, 5);
     this.destroyable = true;
-
+    this.isMoving = true;
 
     this.health = 100;
 
@@ -20,6 +20,7 @@ function Asteroid(name, position) {
 
     this.gotShot = function (shooter, bullet) {
         //alert(self.destroyable);
+        alert("H");
         if (shooter == player && self.destroyable) {
             self.health -= 20;
             if (self.health <= 0) {
