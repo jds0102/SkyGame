@@ -53,7 +53,7 @@ function update() {
         }
         player.update();
         updateWorld();
-        enemy.update();
+        //enemy.update();
         updateBullets();
         updateForCollisions();
     }
