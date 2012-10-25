@@ -1,6 +1,8 @@
 //var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/game_scene.ccbjs');
+var levels = ['level0.ccbjs' , 'level1.ccbjs'];
+var curLevel = 0;
 var engine = new CL3D.CopperLicht('3darea', false, 60,false); 
-	engine.load('copperlichtdata/level0.ccbjs');
+	engine.load('copperlichtdata/'+levels[0]);
 var camera, camAnimator, light;
 var scene;
 var paused = false;
