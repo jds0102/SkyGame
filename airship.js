@@ -166,13 +166,11 @@ function Airship(name) {
             self.increaseMana(1);
         }
 
-        //        if (self.node.getTransformedBoundingBox().intersectsWithBox(portal.getTransformedBoundingBox())) {
-        //            alert("You Win");
-        //        }
+        
 
-        //        if (self.curPulse != null && self.curPulse.node.Visible == false) {
-        //            self.curPulse = null;
-        //        }
+//        if (self.curPulse != null && self.curPulse.node.Visible == false) {
+//            self.curPulse = null;
+//        }
 
     }
 

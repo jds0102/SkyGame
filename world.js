@@ -11,6 +11,7 @@ var asteroids = [];
 var enemies = [];
 var shootables = new Array();
 var portal;
+var portalCollider;
 var floorPlane;
 var hud;
 
@@ -83,7 +84,9 @@ function initWorld() {
 
 	portal = new Portal(airstreams[airstreams.length - 1].node.Pos.add(new CL3D.Vect3d), airstreams[airstreams.length - 1].node.Rot);
 	scene.getRootSceneNode().addChild(portal);
-	
+
+	portalCollider = scene.getSceneNodeFromName('portal');
+	portalCollider.Visible = false;
 	
     worldAnimator = new CL3D.Animator();
     worldAnimator.onMouseDown = onMouseDownWorld;
@@ -141,6 +144,17 @@ function initWorld() {
 
 function updateWorld() {
     hud.update();
+    checkWinLoss();
 }
 
+
+function checkWinLoss() {
+    if (player.node.getTransformedBoundingBox().intersectsWithBox(portalCollider.getTransformedBoundingBox())) {
+        alert("You Win");
+    }
+
+    if (player.health <= 0 || levelTimer < ((new Date().getTime() - scene.getStartTime()) / 1000)) {
+        alert("YouLose");
+    }
+}
 
