@@ -61,7 +61,7 @@ function HUD() {
 	manaBar.setShowBackgroundColor(true, CL3D.createColor(150, 25, 25, 255));
 
 	//Attacks and when they appear on each level
-	if (curLevel > 0) {
+	if (curLevel >= 0) {
 	    attack1 = new CL3D.Overlay2DSceneNode(engine);
 	    scene.getRootSceneNode().addChild(attack1);
 	    attack1.set2DPosition(5, 200, 90, 90);

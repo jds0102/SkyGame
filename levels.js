@@ -58,3 +58,9 @@ var leveldoneChat =
 
 var gameoverChat =
     ["You are out of lives. Click OK to try again!", 'wizard.png'];
+
+var cost = {
+    'coin': 0,
+    'slow': 0,
+    'pulse': 0
+};

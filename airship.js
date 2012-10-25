@@ -67,21 +67,21 @@ function Airship(name, startCoins) {
             self.mana -= 6;
         }
 
-        if (KB.isKeyDown['1'] && player.node && self.coins >= 10 && self.invunrable == false) {
+        if (KB.isKeyDown['1'] && player.node && self.coins >= cost['coin'] && self.invunrable == false) {
             self.invunrable = true;
-            self.coins -= 10;
+            self.coins -= cost['coin'];
             self.shield.Visible = true;
             setTimeout(self.resetInvulnerability, 5000);
         }
 
-        if (KB.isKeyDown['2'] && player.node && self.coins >= 5) {
-            self.coins -= 5;
+        if (KB.isKeyDown['2'] && player.node && self.coins >= cost['slow']) {
+            self.coins -= cost['slow'];
             isSlowTime = true;
             setTimeout(function () { isSlowTime = false; }, 3000);
         }
 
-        if (KB.isKeyDown['3'] && player.node && self.coins >= 5 && self.curPulse == null) {
-            self.coins -= 5;
+        if (KB.isKeyDown['3'] && player.node && self.coins >= cost['pulse'] && self.curPulse == null) {
+            self.coins -= cost['pulse'];
             self.curPulse = new Pulse(self.node.Pos);
         }
 

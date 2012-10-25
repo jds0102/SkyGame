@@ -31,6 +31,7 @@ var frame = 0;
 var slowRatio = 3;
 
 function update() {
+    frame = (frame + 1) % 60;
     if (loading) return;
     if (currentlyChatting && chatUpdated) {
         if (currentChatPos < levels[curLevel].chat.length) {
@@ -85,7 +86,7 @@ function update() {
         }
     }
     if (currentlyChatting || win || lostLevel || wonLevel || gameover) return;
-    frame = (frame + 1) % 60;
+    
     //if (isSlowTime) alert("");
     if (!isSlowTime || frame % slowRatio == 0) {
         for (var i = 0; i < asteroids.length; i++) {
