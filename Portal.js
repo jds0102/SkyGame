@@ -17,6 +17,9 @@ Portal = function (pos, rot) {
     this.Pos = pos;
     this.Rot = rot;
 
+    this.dFrame = 1;
+    this.frame = 0;
+
     this.size = 20;
     this.Scale = new CL3D.Vect3d(this.size, this.size, this.size);
     this.initShader();
@@ -81,6 +84,7 @@ Portal.prototype.initShader = function () {
         #endif                          \n\
         uniform float radius;             \
         uniform float nBands;           \
+        uniform float time;           \
         varying vec2 uv;       \
         \
         void main()                     \
@@ -94,7 +98,7 @@ Portal.prototype.initShader = function () {
             discard;\
         \
         float percent = (radius - dist) / radius;\
-        float theta = percent * percent * angle * 8.0;\
+        float theta = percent * percent * angle * time;\
         float S = sin(theta); \
         float C = cos(theta); \
         tc = vec2(dot(tc, vec2(C, -S)), dot(tc, vec2(S, C)));   \
@@ -105,11 +109,11 @@ Portal.prototype.initShader = function () {
         u = mod(u, 2.0);             \
         vec4 c;                   \
         if ( u < 1.0 ) \
-        gl_FragColor  = vec4(0.0, 0.0, 0.5, 0.4);  \
+        gl_FragColor  = vec4(0.0, 0.0, 0.5, 0.5);  \
         else \
-        gl_FragColor  = vec4(0.0, 0.0, 1.0, 0.8);  \
+        gl_FragColor  = vec4(0.4, 0.3, 1.0, 0.5);  \
         if ( dist > radius * 0.95) \
-            gl_FragColor  = vec4(233.0 / 256.0, 214.0/ 256.0, 106.0 / 256.0, 1.0);  \
+            gl_FragColor  = vec4(233.0 / 256.0, 214.0/ 256.0, 106.0 / 256.0, 0.5);  \
         }";
 
     renderer = engine.getRenderer();
@@ -117,7 +121,19 @@ Portal.prototype.initShader = function () {
     shader = renderer.getGLProgramFromMaterialType(this.portalShaderType);
     shader.radius = renderer.gl.getUniformLocation(shader, "radius");
     shader.nBands = renderer.gl.getUniformLocation(shader, "nBands");
-    renderer.gl.uniform1f(shader.radius, this.size/2);
+    shader.time = renderer.gl.getUniformLocation(shader, "time");
+    renderer.gl.uniform1f(shader.radius, this.size / 2);
     renderer.gl.uniform1f(shader.nBands, 20.0);
+    renderer.gl.uniform1f(shader.time, frame);
+    this.shader = shader;
+}
 
+Portal.prototype.update = function () {
+
+    this.frame = this.frame + this.dFrame;
+    shader = renderer.getGLProgramFromMaterialType(this.portalShaderType);
+    renderer.gl.uniform1f(portal.shader.time, this.frame / 3);
+
+    if (this.frame >= 49 || this.frame <= -49)
+        this.dFrame = -this.dFrame;
 }

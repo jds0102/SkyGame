@@ -112,6 +112,14 @@ function update() {
 	
 }
 
+engine.getRenderer().OnChangeMaterial = function (mattype) {
+    var renderer = engine.getRenderer();
+    if (renderer && mattype == portal.portalShaderType) {
+        portal.update();
+
+    }
+};
+
 function initLevel() {
     //Level specific stuff here
 
