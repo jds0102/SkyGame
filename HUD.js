@@ -211,7 +211,7 @@ function HUD() {
 	    
 	    person = new CL3D.Overlay2DSceneNode(engine);
         scene.getRootSceneNode().addChild(person);
-        person.set2DPosition(10, 600, 180, 750);
+        person.set2DPosition(10, 560, 180, 700);
         person.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
         person.setShowImage(engine.getTextureManager().getTexture(img, true));
 	}
