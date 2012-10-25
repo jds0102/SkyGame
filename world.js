@@ -63,7 +63,6 @@ function initWorld() {
     shootables = new Array();
 
 	player = new Airship(AIRSHIP, playerCoins);
-	//player.node.Pos = new CL3D.Vect3d(0, 0, 0);
 
 	enemy = new EnemyTower();
 	enemies.push(enemy);
@@ -106,7 +105,7 @@ function initWorld() {
 	floorPlane = new FloorPlane();
 	scene.getRootSceneNode().addChild(floorPlane);
 
-	hud = new HUD();
+	
 
     //Load in the Health Globes
 	i = 1;

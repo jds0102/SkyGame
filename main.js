@@ -111,6 +111,13 @@ function update() {
 	
 }
 
+function initLevel() {
+    //Level specific stuff here
+
+    player.speed = levels[curLevel].speed;
+    levelTimer = levels[curLevel].time;
+}
+
 // this is called when loading the 3d scene has finished
 engine.OnLoadingComplete = function () {
     //context2d = document.getElementById('2dcanvas').getContext('2d');
@@ -119,7 +126,8 @@ engine.OnLoadingComplete = function () {
     if (scene) {
         hideSceneObjects();
         initWorld();
-
+        initLevel();
+        hud = new HUD();
         // also, force the 3d engine to update the scene every frame
         scene.setRedrawMode(CL3D.Scene.REDRAW_EVERY_FRAME);
 
