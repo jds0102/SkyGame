@@ -64,8 +64,8 @@ function initWorld() {
 
 	player = new Airship(AIRSHIP, playerCoins);
 
-	enemy = new EnemyTower();
-	enemies.push(enemy);
+	// enemy = new EnemyTower();
+// 	enemies.push(enemy);
 
 //	for (var i = 0; i < player.node.getMaterialCount(); i++ ) {
 //	    player.node.getMaterial(i).Type = newMaterialType;
@@ -140,6 +140,13 @@ function initWorld() {
 	i = 1;
 	while (scene.getSceneNodeFromName('asteroid' + i)) {
 	    asteroids.push(new Asteroid('asteroid' + i));
+	    i++;
+	}
+	
+	//Load in enemies
+	i = 1;
+	while (scene.getSceneNodeFromName('etower' + i)) {
+	    enemies.push(new EnemyTower('etower' + i));
 	    i++;
 	}
 
