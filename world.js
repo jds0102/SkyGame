@@ -17,6 +17,7 @@ var hud;
 
 
 var levelTimer = 30;
+var levelStartTime;
 
 var selectedObject = null;
 
@@ -43,8 +44,9 @@ function onMouseDownWorld(event) {
 	line.End = target;
 	var cpoint = new CL3D.MeshTriangleSelector(floorPlane.mesh, floorPlane).getCollisionPointWithLine(line.Start, line.End, false, null, false);
 
-	if (event.button == 0) {
-	    player.mouseDown(x,y);
+	if (event.button == 0 && currentlyChatting) {
+	    currentChatPos++;
+	    chatUpdated = true;
 	}
 	
 	
@@ -53,8 +55,8 @@ function onMouseDownWorld(event) {
 
 
 function initWorld() {
-	player = new Airship(AIRSHIP, scene);
-	player.node.Pos = new CL3D.Vect3d(0, 0, -70);
+	player = new Airship(AIRSHIP, playerCoins);
+	//player.node.Pos = new CL3D.Vect3d(0, 0, 0);
 
 	enemy = new EnemyTower();
 	enemies.push(enemy);
@@ -81,6 +83,7 @@ function initWorld() {
         }
 	    else haveMoreAirStreams = false;
 	} while (haveMoreAirStreams);
+	
 
 	portal = new Portal(airstreams[airstreams.length - 1].node.Pos.add(new CL3D.Vect3d), airstreams[airstreams.length - 1].node.Rot);
 	scene.getRootSceneNode().addChild(portal);
@@ -150,11 +153,13 @@ function updateWorld() {
 
 function checkWinLoss() {
     if (player.node.getTransformedBoundingBox().intersectsWithBox(portalCollider.getTransformedBoundingBox())) {
-        alert("You Win");
+        alert("You Win! Click OK to proceed to the next level.");
+        nextLevel();
     }
 
-    if (player.health <= 0 || levelTimer < ((new Date().getTime() - scene.getStartTime()) / 1000)) {
-        alert("YouLose");
+    if (player.health <= 0 || levelTimer < ((new Date().getTime() - levelStartTime) / 1000)) {
+        alert("You Lost. Click OK to retry this level.");
+        restartLevel();
     }
 }
 

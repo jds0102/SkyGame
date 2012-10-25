@@ -10,6 +10,7 @@ function HUD() {
     this.star, this.starCount;
     this.coin, this.coinCount;
     this.attack1, this.attack2, this.attack3;
+    this.livesCount, this.livesHeader;
 
     //Health Mana Background
     healthManaBackground = new CL3D.Overlay2DSceneNode(engine);
@@ -20,7 +21,7 @@ function HUD() {
     //Stat Background
     statBackground = new CL3D.Overlay2DSceneNode(engine);
     scene.getRootSceneNode().addChild(statBackground);
-    statBackground.set2DPosition(screenWidth - 200, 0, 200, 85);
+    statBackground.set2DPosition(screenWidth - 300, 0, 300, 85);
     statBackground.setShowBackgroundColor(true, CL3D.createColor(75, 255, 255, 255));
 
     //Health Bar 
@@ -60,23 +61,25 @@ function HUD() {
 	manaBar.setShowBackgroundColor(true, CL3D.createColor(150, 25, 25, 255));
 
 	//Attacks
-	attack1 = new CL3D.Overlay2DSceneNode(engine);
-	scene.getRootSceneNode().addChild(attack1);
-	attack1.set2DPosition(5, 200, 90, 90);
-	attack1.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	attack1.setShowImage(engine.getTextureManager().getTexture("invuln.png", true));
+	if (curLevel > 0) {
+	    attack1 = new CL3D.Overlay2DSceneNode(engine);
+	    scene.getRootSceneNode().addChild(attack1);
+	    attack1.set2DPosition(5, 200, 90, 90);
+	    attack1.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+	    attack1.setShowImage(engine.getTextureManager().getTexture("invuln.png", true));
 
-	attack2 = new CL3D.Overlay2DSceneNode(engine);
-	scene.getRootSceneNode().addChild(attack2);
-	attack2.set2DPosition(5, 300, 90, 90);
-	attack2.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	attack2.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
+	    attack2 = new CL3D.Overlay2DSceneNode(engine);
+	    scene.getRootSceneNode().addChild(attack2);
+	    attack2.set2DPosition(5, 300, 90, 90);
+	    attack2.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+	    attack2.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
 
-	attack3 = new CL3D.Overlay2DSceneNode(engine);
-	scene.getRootSceneNode().addChild(attack3);
-	attack3.set2DPosition(5, 400, 90, 90);
-	attack3.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	attack3.setShowImage(engine.getTextureManager().getTexture("pulse.png", true));
+	    attack3 = new CL3D.Overlay2DSceneNode(engine);
+	    scene.getRootSceneNode().addChild(attack3);
+	    attack3.set2DPosition(5, 400, 90, 90);
+	    attack3.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+	    attack3.setShowImage(engine.getTextureManager().getTexture("pulse.png", true));
+	}
 
     //Timer
 	gameTimer = new CL3D.Overlay2DSceneNode(engine);
@@ -84,7 +87,7 @@ function HUD() {
 	gameTimer.set2DPosition(screenWidth - 100, 5, 95, 20);
 	gameTimer.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
 	gameTimer.FontName = "24;default;arial;normal;bold;true";
-	gameTimer.setText("00:00");
+	gameTimer.setText(levelTimer + ".000");
 
 	timeLabel = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(timeLabel);
@@ -108,6 +111,26 @@ function HUD() {
 	starCount.FontName = "24;default;arial;normal;bold;true";
 	starCount.setText("0");
 
+	//Lives 
+	lives = new CL3D.Overlay2DSceneNode(engine);
+	scene.getRootSceneNode().addChild(lives);
+	lives.set2DPosition(screenWidth - 235, 40, 40, 40);
+	lives.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+	lives.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
+
+
+	livesCount = new CL3D.Overlay2DSceneNode(engine);
+	scene.getRootSceneNode().addChild(livesCount);
+	livesCount.set2DPosition(screenWidth - 270, 50, 25, 20);
+	livesCount.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+	livesCount.FontName = "24;default;arial;normal;bold;true";
+	if (playerLives > 0) {
+	    livesCount.setText(playerLives);
+	} else {
+	    livesCount.setText("0");
+	}
+	
+
 	//Coin 
 	coin = new CL3D.Overlay2DSceneNode(engine);
 	scene.getRootSceneNode().addChild(coin);
@@ -120,7 +143,11 @@ function HUD() {
 	coinCount.set2DPosition(screenWidth - 175, 50, 25, 20);
 	coinCount.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
 	coinCount.FontName = "24;default;arial;normal;bold;true";
-	coinCount.setText("0");
+	if (playerCoins < 1) {
+	    coinCount.setText('0');
+	} else {
+	    coinCount.setText(playerCoins);
+	}
     
     //speech
     chat = new CL3D.Overlay2DSceneNode(engine);
@@ -150,17 +177,18 @@ function HUD() {
 	    self.manaBar.set2DPosition(7.5, 87.5, (player.mana * 1.5), 25);
 	    self.coinCount.setText(player.coins + "");
 	    self.starCount.setText(player.stars + "");
-	    var timeToDisplay = Math.floor( levelTimer - ((new Date().getTime() - scene.getStartTime()) / 1000));
-	    var decimalToDisplay = 1000 - ((new Date().getTime() - scene.getStartTime()) % 1000);
+	    var timeToDisplay = Math.floor(levelTimer - ((new Date().getTime() - levelStartTime) / 1000));
+	    var decimalToDisplay = 1000 - ((new Date().getTime() - levelStartTime) % 1000);
 	    if (decimalToDisplay >= 100) {
 	        self.gameTimer.setText(timeToDisplay + "." + decimalToDisplay);
 	    } else if (decimalToDisplay >= 10) {
 	        self.gameTimer.setText(timeToDisplay + ".0" + decimalToDisplay);
 	    } else if (decimalToDisplay == 0) {
 	        self.gameTimer.setText(timeToDisplay + ".000");
-	    }else {
+	    } else {
 	        self.gameTimer.setText(timeToDisplay + ".00" + decimalToDisplay);
 	    }
+
 	}
 	
 	this.chatting = function(text, img){
@@ -170,7 +198,7 @@ function HUD() {
 	        
 	    chat = new CL3D.Overlay2DSceneNode(engine);
         scene.getRootSceneNode().addChild(chat);
-        chat.set2DPosition(0, 350, 1024, 768);
+        chat.set2DPosition(100, 350, 1024, 768);
         chat.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
         chat.FontName = "24;default;arial;normal;bold;true";
 	    chat.setText(text);

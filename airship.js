@@ -1,4 +1,4 @@
-function Airship(name) {	
+function Airship(name, startCoins) {	
     var self = this;
     this.node = scene.getSceneNodeFromName(name); //.createClone(scene.getSceneNodeFromName(name).getParent());
 	this.node.Visible = true;
@@ -19,7 +19,7 @@ function Airship(name) {
     this.mana = 100;
     this.lastManaUpdate = 0.0;
     this.stars = 0;
-    this.coins = 100;
+    this.coins = startCoins;
     this.curPulse = null;
 
     this.invunrable = false;

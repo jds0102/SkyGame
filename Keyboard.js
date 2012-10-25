@@ -13,3 +13,7 @@ document.onkeyup = function (event) {
 }
 
 var KB = new Keyboard();
+
+function resetKeyboard() {
+    KB = new Keyboard();
+}
