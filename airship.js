@@ -22,6 +22,8 @@ function Airship(name, startCoins) {
     this.coins = startCoins;
     this.curPulse = null;
 
+    this.witchDPS = 0.3;
+
     this.justHitAsteroid = false;
 
     this.invunrable = false;
@@ -113,7 +115,7 @@ function Airship(name, startCoins) {
         }
         if (!insideStream) {
             self.velocity.multiplyThisWithScal(self.dragFactor);
-            self.decreaseHealth(0.3);
+            self.decreaseHealth(this.witchDPS);
         }
     }
 

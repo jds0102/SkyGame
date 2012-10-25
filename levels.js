@@ -3,7 +3,9 @@ var levels = new Array();
 var level = {
     data: 'level0.ccbjs',
     speed: 1.0,
-    time : 30,
+    time: 30,
+    witch: 0.3,
+    power: 2000,
     chat: 
     [['Click to hear what I have to say.', 'wizard.png'],
    // ['We must outrun the evil witch!', 'wizard.png'],
@@ -27,6 +29,8 @@ var level = {
     data: 'level1.ccbjs',
     speed: 1.0,
     time: 30,
+    witch: 0.3,
+    power: 5000,
     chat:
     [['Whew, we made it!', 'wizard.png'], 
     ['Not so fast!', 'witch.png'], 

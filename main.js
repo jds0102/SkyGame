@@ -40,6 +40,7 @@ function update() {
             //Set level specific things here
             currentlyChatting = false;
             levelStartTime = new Date().getTime();
+            setTimeout(castEvilSpell, levels[curLevel].power)
             currentChatPos = 0;
         }
         chatUpdated = false;
@@ -122,8 +123,8 @@ engine.getRenderer().OnChangeMaterial = function (mattype) {
 
 function initLevel() {
     //Level specific stuff here
-
     player.speed = levels[curLevel].speed;
+    player.witchDPS = levels[curLevel].witch;
     levelTimer = levels[curLevel].time;
 }
 
