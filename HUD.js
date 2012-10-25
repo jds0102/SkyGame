@@ -185,9 +185,12 @@ function HUD() {
         person.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
         person.setShowImage(engine.getTextureManager().getTexture(img, true));
 	}
-	
-	this.rmvChat = function(object){
-	    ;
+
+    this.resetChat = function (object) {
+        if (chat)
+            scene.getRootSceneNode().removeChild(chat);
+        if (person)
+            scene.getRootSceneNode().removeChild(person);
 	}
 }
 

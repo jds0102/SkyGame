@@ -86,3 +86,22 @@ engine.OnLoadingComplete = function () {
 
     }
 }
+
+function unCastEvilSpell() {
+    for (var i = airstreams.length - 1; i >= 0; i--) {
+        airstreams[i].node.Visible = true;
+    }
+}
+
+function castEvilSpell() {
+    hud.chatting("Avoiiding alll myy traapss I seeee... ", "witch.png");
+    setTimeout(hud.chatting, 1700, "HOW DO YOU LIKE THIS?", "witch.png");
+    setTimeout(hud.resetChat, 3000);
+    setTimeout(actuallyCastIt, 2000);
+}
+function actuallyCastIt() {
+    for (var i = airstreams.length - 1; i >= 0; i--) {
+        airstreams[i].node.Visible = false;
+    }
+    setTimeout(unCastEvilSpell, 5000);
+}
