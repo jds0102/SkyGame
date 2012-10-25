@@ -14,12 +14,23 @@ document.body.style.overflow = "hidden";
 
 var context;
 
+var isSlowTime = false;
+var frame = 0;
+var slowRatio = 3;
+
 function update() {
-    player.update();
-    updateWorld();
-    enemy.update();
-    updateBullets();
-    updateForCollisions();
+    frame = (frame + 1) % 60;
+    //if (isSlowTime) alert("");
+    if (!isSlowTime || frame % slowRatio == 0) {
+        for (var i = 0; i < asteroids.length; i++) {
+            asteroids[i].update();
+        }
+        player.update();
+        updateWorld();
+        enemy.update();
+        updateBullets();
+        updateForCollisions();
+    }
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
 	shipLookAt.normalize();
