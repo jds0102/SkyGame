@@ -14,8 +14,8 @@ createVertex = function (x, y, z, s, t) {
 Portal = function (pos, rot) {
     var self = this;
     this.init();  // init scene node specific members
-    //this.Pos = pos;
-    //this.Rot = rot;
+    this.Pos = pos;
+    this.Rot = rot;
 
     this.size = 20;
     this.Scale = new CL3D.Vect3d(this.size, this.size, this.size);
@@ -105,11 +105,11 @@ Portal.prototype.initShader = function () {
         u = mod(u, 2.0);             \
         vec4 c;                   \
         if ( u < 1.0 ) \
-        gl_FragColor  = vec4(0.0, 0.0, 0.5, 0.5);  \
+        gl_FragColor  = vec4(0.0, 0.0, 0.5, 0.4);  \
         else \
-        gl_FragColor  = vec4(0.0, 0.0, 1.0, 0.5);  \
+        gl_FragColor  = vec4(0.0, 0.0, 1.0, 0.8);  \
         if ( dist > radius * 0.95) \
-            gl_FragColor  = vec4(233.0 / 256.0, 214.0/ 256.0, 106.0 / 256.0, 0.5);  \
+            gl_FragColor  = vec4(233.0 / 256.0, 214.0/ 256.0, 106.0 / 256.0, 1.0);  \
         }";
 
     renderer = engine.getRenderer();

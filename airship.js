@@ -37,12 +37,10 @@ function Airship(name) {
 
         if (KB.isKeyDown['Q'] && player.node) {
             self.node.Rot.Y -= self.rotSpeed;
-            hud.chatting("ARRRRGGHHHHH", "witch.png");
         }
 
         if (KB.isKeyDown['E'] && player.node) {
             self.node.Rot.Y += self.rotSpeed; ;
-            hud.chatting("MUAHAHHAHHA", "witch.png");
         }
 
         //This is the getString result of pressing left arrow
@@ -153,8 +151,11 @@ function Airship(name) {
 
         for (var i = 0; i < asteroids.length; i++) {
             if (self.node.getTransformedBoundingBox().intersectsWithBox(asteroids[i].node.getTransformedBoundingBox()) && asteroids[i].node.Visible == true) {
-                asteroids[i].node.Visible = false;
+                //asteroids[i].node.Visible = false;
                 self.decreaseHealth(25);
+                //self.node.Pos.substractFromThis(self.velocity.multiplyWithScal(30));
+                self.velocity.multiplyThisWithScal(-20);
+                self.node.updateAbsolutePosition();
             }
         }
 
