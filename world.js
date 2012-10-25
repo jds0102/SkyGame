@@ -44,7 +44,7 @@ function onMouseDownWorld(event) {
 	line.End = target;
 	var cpoint = new CL3D.MeshTriangleSelector(floorPlane.mesh, floorPlane).getCollisionPointWithLine(line.Start, line.End, false, null, false);
 
-	if (event.button == 0 && currentlyChatting) {
+	if (event.button == 0 && (currentlyChatting || win)) {
 	    currentChatPos++;
 	    chatUpdated = true;
 	}
@@ -55,6 +55,13 @@ function onMouseDownWorld(event) {
 
 
 function initWorld() {
+
+    airstreams = [];
+    collectibles = [];
+    asteroids = [];
+    enemies = [];
+    shootables = new Array();
+
 	player = new Airship(AIRSHIP, playerCoins);
 	//player.node.Pos = new CL3D.Vect3d(0, 0, 0);
 
@@ -83,13 +90,14 @@ function initWorld() {
         }
 	    else haveMoreAirStreams = false;
 	} while (haveMoreAirStreams);
-	
-
-	portal = new Portal(airstreams[airstreams.length - 1].node.Pos.add(new CL3D.Vect3d), airstreams[airstreams.length - 1].node.Rot);
-	scene.getRootSceneNode().addChild(portal);
 
 	portalCollider = scene.getSceneNodeFromName('portal');
 	portalCollider.Visible = false;
+
+	portal = new Portal(portalCollider.Pos, airstreams[airstreams.length - 1].node.Rot);
+	scene.getRootSceneNode().addChild(portal);
+
+	
 	
     worldAnimator = new CL3D.Animator();
     worldAnimator.onMouseDown = onMouseDownWorld;
@@ -153,13 +161,23 @@ function updateWorld() {
 
 function checkWinLoss() {
     if (player.node.getTransformedBoundingBox().intersectsWithBox(portalCollider.getTransformedBoundingBox())) {
-        alert("You Win! Click OK to proceed to the next level.");
-        nextLevel();
+        if (curLevel + 1 < levels.length) {
+            alert("Level Completed! Click OK to proceed to the next level.");
+            nextLevel();
+        } else {
+        winGame();
+        }
     }
 
     if (player.health <= 0 || levelTimer < ((new Date().getTime() - levelStartTime) / 1000)) {
-        alert("You Lost. Click OK to retry this level.");
-        restartLevel();
+        playerLives--;
+        if (playerLives <= 0) {
+            alert("You are out of lives. Click OK to try again!");
+            restartGame();
+        } else {
+            alert("You Lost. Click OK to retry this level.");
+            restartLevel();
+        }
     }
 }
 

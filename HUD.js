@@ -72,13 +72,15 @@ function HUD() {
 	    scene.getRootSceneNode().addChild(attack2);
 	    attack2.set2DPosition(5, 300, 90, 90);
 	    attack2.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	    attack2.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
-
-	    attack3 = new CL3D.Overlay2DSceneNode(engine);
-	    scene.getRootSceneNode().addChild(attack3);
-	    attack3.set2DPosition(5, 400, 90, 90);
-	    attack3.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	    attack3.setShowImage(engine.getTextureManager().getTexture("pulse.png", true));
+	    attack2.setShowImage(engine.getTextureManager().getTexture("slowtime.png", true));
+	    
+        if (curLevel > 1) {
+	        attack3 = new CL3D.Overlay2DSceneNode(engine);
+	        scene.getRootSceneNode().addChild(attack3);
+	        attack3.set2DPosition(5, 400, 90, 90);
+	        attack3.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
+	        attack3.setShowImage(engine.getTextureManager().getTexture("pulse.png", true));
+	    }
 	}
 
     //Timer
@@ -116,7 +118,7 @@ function HUD() {
 	scene.getRootSceneNode().addChild(lives);
 	lives.set2DPosition(screenWidth - 235, 40, 40, 40);
 	lives.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-	lives.setShowImage(engine.getTextureManager().getTexture("coins.png", true));
+	lives.setShowImage(engine.getTextureManager().getTexture("shiplife.png", true));
 
 
 	livesCount = new CL3D.Overlay2DSceneNode(engine);
@@ -200,7 +202,7 @@ function HUD() {
         scene.getRootSceneNode().addChild(chat);
         chat.set2DPosition(100, 350, 1024, 768);
         chat.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
-        chat.FontName = "24;default;arial;normal;bold;true";
+        chat.FontName = "20;default;arial;normal;bold;true";
 	    chat.setText(text);
 	    
 	    //speaker
@@ -213,9 +215,12 @@ function HUD() {
         person.setShowBackgroundColor(true, CL3D.createColor(0, 0, 0, 0));
         person.setShowImage(engine.getTextureManager().getTexture(img, true));
 	}
-	
-	this.rmvChat = function(object){
-	    ;
+
+    this.resetChat = function (object) {
+        if (chat)
+            scene.getRootSceneNode().removeChild(chat);
+        if (person)
+            scene.getRootSceneNode().removeChild(person);
 	}
 }
 

@@ -22,6 +22,8 @@ function Airship(name, startCoins) {
     this.coins = startCoins;
     this.curPulse = null;
 
+    this.justHitAsteroid = false;
+
     this.invunrable = false;
     scene.getSceneNodeFromName('forcefield1').Visible = false;
     this.shield = scene.getSceneNodeFromName('forcefield1').createClone(this.node); ;
@@ -74,7 +76,8 @@ function Airship(name, startCoins) {
 
         if (KB.isKeyDown['2'] && player.node && self.coins >= 5) {
             self.coins -= 5;
-            //slow time
+            isSlowTime = true;
+            setTimeout(function () { isSlowTime = false; }, 3000);
         }
 
         if (KB.isKeyDown['3'] && player.node && self.coins >= 5 && self.curPulse == null) {
@@ -84,7 +87,7 @@ function Airship(name, startCoins) {
 
     }
 
-    this.updateVelocity  = function () {
+    this.updateVelocity = function () {
         var insideStream = false;
         if (self.curStreamIndex < airstreams.length - 1 && airstreams[self.curStreamIndex].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
             insideStream = true;
@@ -110,6 +113,7 @@ function Airship(name, startCoins) {
         }
         if (!insideStream) {
             self.velocity.multiplyThisWithScal(self.dragFactor);
+            self.decreaseHealth(0.3);
         }
     }
 
@@ -118,10 +122,9 @@ function Airship(name, startCoins) {
             return;
         }
 
-        if (airstreams) {
+        if (airstreams && !self.justHitAsteroid) {
             self.updateVelocity();
         }
-
         self.node.Pos.addToThis(self.velocity);
 
         self.handleInput();
@@ -152,9 +155,16 @@ function Airship(name, startCoins) {
         for (var i = 0; i < asteroids.length; i++) {
             if (self.node.getTransformedBoundingBox().intersectsWithBox(asteroids[i].node.getTransformedBoundingBox()) && asteroids[i].node.Visible == true) {
                 //asteroids[i].node.Visible = false;
-                self.decreaseHealth(25);
-                //self.node.Pos.substractFromThis(self.velocity.multiplyWithScal(30));
-                self.velocity.multiplyThisWithScal(-20);
+
+                if (!self.justHitAsteroid) {
+                    self.justHitAsteroid = true;
+                    self.decreaseHealth(25);
+                    self.velocity.multiplyThisWithScal(-1);
+                    setTimeout(function () { self.justHitAsteroid = false; }, 500)
+                }
+                else {
+                    self.velocity.multiplyThisWithScal(0.8);
+                }
                 self.node.updateAbsolutePosition();
             }
         }
