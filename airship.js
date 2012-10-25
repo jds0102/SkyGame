@@ -139,13 +139,13 @@ function Airship(name, startCoins) {
         for (var i = 0; i < collectibles.length; i++) {
             if (this.node.getTransformedBoundingBox().intersectsWithBox(collectibles[i].node.getTransformedBoundingBox()) && collectibles[i].node.Visible == true) {
                 if (collectibles[i].type == "health") {
-                    self.increaseHealth(10);
+                    self.increaseHealth(20);
                 } else if (collectibles[i].type == "mana") {
                     self.increaseMana(10);
                 } else if (collectibles[i].type == "star") {
                     self.stars++;
                 } else if (collectibles[i].type == "coin") {
-                    self.coins++;
+                    self.coins+=5;
                 }
                 collectibles[i].node.Visible = false;
             }
@@ -176,12 +176,6 @@ function Airship(name, startCoins) {
             self.increaseMana(1);
         }
 
-        
-
-//        if (self.curPulse != null && self.curPulse.node.Visible == false) {
-//            self.curPulse = null;
-//        }
-
     }
 
 	this.onClick = function () {
@@ -208,8 +202,7 @@ function Airship(name, startCoins) {
         self.mana = Math.min(100, self.mana + value);
     }
 
-	//this.clickAnimator = new CL3D.AnimatorOnClick(scene, engine, this.onClick);
-	//this.node.addAnimator(this.clickAnimator);
+
 	this.animator = new CL3D.Animator();
 	this.node.addAnimator(this.animator);
 
@@ -225,19 +218,6 @@ function Airship(name, startCoins) {
 	}
 
 	this.mouseDown = function (x, y) {
-//	    if (x < 95 && x > 0) {
-//	        if (y > 200 && y < 290 && player.node && self.coins >= 10) {
-//	            self.invunrable = true;
-//	            self.coins -= 10;
-//	            setTimeout(self.resetInvulnerability, 5000);
-//	        } else if (y > 300 && y < 390 && player.node && self.coins >= 5) {
-//	            self.coins -= 5;
-//	            //slow time
-//	        } else if (y > 400 && y < 490 && self.coins >= 5 && self.curPulse == null) {
-//	            self.coins -= 5;
-//	            self.curPulse = new Pulse(self.node.Pos);
-//	        }
-//	    }
 	}
 
 }
