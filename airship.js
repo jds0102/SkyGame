@@ -37,10 +37,12 @@ function Airship(name) {
 
         if (KB.isKeyDown['Q'] && player.node) {
             self.node.Rot.Y -= self.rotSpeed;
+            hud.chatting("ARRRRGGHHHHH", "witch.png");
         }
 
         if (KB.isKeyDown['E'] && player.node) {
             self.node.Rot.Y += self.rotSpeed; ;
+            hud.chatting("MUAHAHHAHHA", "witch.png");
         }
 
         //This is the getString result of pressing left arrow
