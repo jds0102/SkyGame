@@ -1,7 +1,8 @@
 
 function HealthGlobe(name) {
     this.self = this;
-    this.node = scene.getSceneNodeFromName(name);//.createClone(scene.getSceneNodeFromName(name).getParent());
+    this.node = scene.getSceneNodeFromName(name); //.createClone(scene.getSceneNodeFromName(name).getParent());
+    this.node.Scale = new CL3D.Vect3d(2, 2, 2);
     this.node.Visible = true;
     this.type = "health";
 }

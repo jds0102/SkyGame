@@ -1,8 +1,7 @@
 //var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/game_scene.ccbjs');
-var levels = ['level0.ccbjs' , 'level1.ccbjs'];
 var curLevel = 0;
 var engine = new CL3D.CopperLicht('3darea', false, 60,false); 
-	engine.load('copperlichtdata/'+levels[0]);
+	engine.load('copperlichtdata/'+levels[0].data);
 var camera, camAnimator, light;
 var scene;
 var paused = false;
@@ -13,7 +12,12 @@ var loading = true;
 var currentlyChatting = false;
 var currentChatPos = 0;
 var chatUpdated = true;
+
 var win = false;
+var lostLevel = false;
+var wonLevel = false;
+var gameover = false;
+
 var playerCoins = 0;
 var playerLives = 3;
 
@@ -29,8 +33,8 @@ var slowRatio = 3;
 function update() {
     if (loading) return;
     if (currentlyChatting && chatUpdated) {
-        if (currentChatPos < chats[curLevel].length) {
-            hud.chatting(chats[curLevel][currentChatPos][0], chats[curLevel][currentChatPos][1]);
+        if (currentChatPos < levels[curLevel].chat.length) {
+            hud.chatting(levels[curLevel].chat[currentChatPos][0], levels[curLevel].chat[currentChatPos][1]);
         } else {
             //Set level specific things here
             currentlyChatting = false;
@@ -39,12 +43,48 @@ function update() {
         }
         chatUpdated = false;
     }
+    if (lostLevel) {
+        if (chatUpdated == false) {
+            hud.chatting(lostChat[0], lostChat[1]);
+            //chatUpdated = false;
+        }
+        else {
+            lostLevel = false;
+            hud.resetChat();
+            playerLives--;
+            restartLevel();
+        }
+        return;
+    }
+    if (wonLevel) {
+        if (chatUpdated == false) {
+            hud.chatting(leveldoneChat[0], leveldoneChat[1]);
+        }
+        else {
+            hud.resetChat();
+            wonLevel = false;
+            nextLevel();
+        }
+        return;
+    }
+    if (gameover) {
+        if (chatUpdated == false) {
+            hud.chatting(gameoverChat[0], gameoverChat[1]);
+        }
+        else {
+            gameover = false;
+            hud.resetChat();
+            restartGame();
+        }
+        return;
+    }
     if (win && chatUpdated) {
-        if (currentChatPos < chats[curLevel].length) {
-            hud.chatting(chats[curLevel][currentChatPos][0], chats[curLevel][currentChatPos][1]);
+        if (currentChatPos < levels[curLevel].chat.length) {
+            //alert();
+            hud.chatting(levels[curLevel].chat[currentChatPos][0], levels[curLevel].chat[currentChatPos][1]);
         }
     }
-    if (currentlyChatting || win) return;
+    if (currentlyChatting || win || lostLevel || wonLevel || gameover) return;
     frame = (frame + 1) % 60;
     //if (isSlowTime) alert("");
     if (!isSlowTime || frame % slowRatio == 0) {
@@ -80,7 +120,6 @@ engine.OnLoadingComplete = function () {
         hideSceneObjects();
         initWorld();
 
-
         // also, force the 3d engine to update the scene every frame
         scene.setRedrawMode(CL3D.Scene.REDRAW_EVERY_FRAME);
 
@@ -111,7 +150,7 @@ engine.OnLoadingComplete = function () {
         engine.OnAnimate = update;
         loading = false;
         currentlyChatting = true;
-
+        //winGame()
     }
 }
 
@@ -119,17 +158,16 @@ function restartLevel() {
     loading = true;
     chatUpdated = true;
     resetKeyboard();
-    engine.load('copperlichtdata/' + levels[curLevel]);
+    engine.load('copperlichtdata/' + levels[curLevel].data);
 }
 
 function nextLevel() {
-    if (curLevel + 1 < levels.length) {
-
-        curLevel++;
+    curLevel++;
+    if (curLevel < levels.length-1) {
         chatUpdated = true;
         resetKeyboard();
         loading = true;
-        engine.load('copperlichtdata/' + levels[curLevel]);
+        engine.load('copperlichtdata/' + levels[curLevel].data);
     } else {
         winGame();
     }
@@ -142,11 +180,10 @@ function restartGame() {
     chatUpdated = true;
     resetKeyboard();
     loading = true;
-    engine.load('copperlichtdata/' + levels[curLevel]);
+    engine.load('copperlichtdata/' + levels[curLevel].data);
 }
 
 function winGame() {
-    curLevel++;
     win = true;
     chatUpdated = true;
 }
@@ -172,10 +209,3 @@ function actuallyCastIt() {
 }
 
 
-//Usage
-//The table contains a table for each levels intro chat
-//Each levels chat has a table for each time someone should talk
-//The first string is the text, the second is the image to display with the text
-var chats = [[['Click to hear what I have to say.', 'wizard.png'], ['We must outrun the evil witch!', 'wizard.png'], ['We have stolen her Crystal Ball and she is after us.', 'wizard.png'], ['I will get you!', 'witch.png'], ['I have created airstreams in the sky,', 'wizard.png'], ['which will carry our balloon home.', 'wizard.png'], ['She has disabled our propeller,', 'wizard.png'], ['so we will have to rely on the airstreams for thrust.', 'wizard.png'], ['Also, outside of the airstream she can attack our balloon.', 'wizard.png'], ['HA HA HA HA', 'witch.png'], ['Use the arrow keys to shift left and right,', 'wizard.png'], ['and use \'Q\' and \'E\' to rotate the balloon.', 'wizard.png'], ['Spacebar will fire our guns to destoy asteroids in the way.', 'wizard.png'], ['I have created a portal up ahead,', 'wizard.png'], ['get us there befor time runs out!', 'wizard.png'], ['Click to get started.', 'wizard.png']] //Level 1 intro chat
-            , [['Whew, we made it!', 'wizard.png'], ['Not so fast!', 'witch.png'], ['I am more powerful than you think', 'witch.png'], ['This may be a little harder than I anticipated.', 'wizard.png'], ['I am activating some of the balloons powers.', 'wizard.png'], ['Each time you use a power it will cost us some coins.', 'wizard.png'], ['Pressing \'1\' will provide us with a temporary shield', 'wizard.png'], ['and pressing \'2\' will slow down the objects around us.', 'wizard.png'], ['Use these powers wisely!', 'wizard.png'], ['Here we go!', 'wizard.png']] //Level 2 intro chat
-            , [['We have outsmarted the witch', 'wizard.png'], ['Rats!', 'witch.png'], ['Thank you for your noble efforts!', 'wizard.png'], ['You WIN!', 'wizard.png']]]; //win state chat

@@ -44,7 +44,7 @@ function onMouseDownWorld(event) {
 	line.End = target;
 	var cpoint = new CL3D.MeshTriangleSelector(floorPlane.mesh, floorPlane).getCollisionPointWithLine(line.Start, line.End, false, null, false);
 
-	if (event.button == 0 && (currentlyChatting || win)) {
+	if (event.button == 0 && (currentlyChatting || win || lostLevel || wonLevel || gameover)) {
 	    currentChatPos++;
 	    chatUpdated = true;
 	}
@@ -160,23 +160,22 @@ function updateWorld() {
 
 
 function checkWinLoss() {
+    //if (currentlyChatting || win || lostLevel || wonLevel || gameover) return;
+    
     if (player.node.getTransformedBoundingBox().intersectsWithBox(portalCollider.getTransformedBoundingBox())) {
         if (curLevel + 1 < levels.length) {
-            alert("Level Completed! Click OK to proceed to the next level.");
-            nextLevel();
+            wonLevel = true;
         } else {
-        winGame();
+            winGame();
         }
     }
 
     if (player.health <= 0 || levelTimer < ((new Date().getTime() - levelStartTime) / 1000)) {
-        playerLives--;
         if (playerLives <= 0) {
-            alert("You are out of lives. Click OK to try again!");
-            restartGame();
+            //alert("You are out of lives. Click OK to try again!");
+            gameover = true;
         } else {
-            alert("You Lost. Click OK to retry this level.");
-            restartLevel();
+            lostLevel = true;
         }
     }
 }
