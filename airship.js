@@ -87,7 +87,7 @@ function Airship(name) {
 
     }
 
-    this.updateVelocity  = function () {
+    this.updateVelocity = function () {
         var insideStream = false;
         if (self.curStreamIndex < airstreams.length - 1 && airstreams[self.curStreamIndex].node.getTransformedBoundingBox().isPointInside(self.node.Pos)) {
             insideStream = true;
@@ -113,6 +113,7 @@ function Airship(name) {
         }
         if (!insideStream) {
             self.velocity.multiplyThisWithScal(self.dragFactor);
+            self.decreaseHealth(0.3);
         }
     }
 
