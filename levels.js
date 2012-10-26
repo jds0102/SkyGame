@@ -56,13 +56,14 @@ var level = {
     ['You escaped again?', 'witch.png'],
     ['Don\'t dare think I\'ll let you escape that easy!', 'witch.png'],
     ['Minions! My dear foools! Get them!!!', 'witch.png'],
-    ['Don\'t worry my friend....', 'wizard.png'],
-    ['Minions? Be Careful of those flying skulls.', 'wizard.png'],
+    ['Don\'t worry my friend....', 'wizard.png'],   
     ['We have some powers in our arsenal too!', 'wizard.png'],
     ['I am activating one more of the balloons powers.', 'wizard.png'],
     ['Pressing \'3\' will provide us with a pulse to destroy...', 'wizard.png'],
     ['everything in our path.', 'wizard.png'],
-    ['Use these powers wisely!', 'wizard.png'], ['Here we go!', 'wizard.png']]
+    ['Be Careful of those flying skulls...', 'wizard.png'],
+    ['and remember to collect enough coins, we\'ll need them later.', 'wizard.png'],
+    ['Here we go!', 'wizard.png']]
 }
 levels.push(level);
 
@@ -112,6 +113,7 @@ var level = {
     [['We have outsmarted the witch', 'wizard.png'],
     ['Rats!', 'witch.png'],
     ['Thank you for your noble efforts!', 'wizard.png'], 
+    ['You have saved the world!!', 'wizard.png'], 
     ['You WIN!', 'wizard.png']]
 }
 levels.push(level);
