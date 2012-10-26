@@ -57,6 +57,7 @@ var level = {
     ['Don\'t dare think I\'ll let you escape that easy!', 'witch.png'],
     ['Minions! My dear foools! Get them!!!', 'witch.png'],
     ['Don\'t worry my friend....', 'wizard.png'],
+    ['Minions? Be Careful of those flying skulls.', 'wizard.png'],
     ['We have some powers in our arsenal too!', 'wizard.png'],
     ['I am activating one more of the balloons powers.', 'wizard.png'],
     ['Pressing \'3\' will provide us with a pulse to destroy...', 'wizard.png'],
@@ -127,5 +128,5 @@ var gameoverChat =
 var cost = {
     'coin': 20,
     'slow': 15,
-    'pulse': 0
+    'pulse': 15
 };

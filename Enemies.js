@@ -10,7 +10,7 @@ function EnemyTower(name) {
     this.rotRange = { min : 10, max : 20};
     this.rotSpeed = 0.1;
     this.direction = new CL3D.Vect3d(0, 0, 1);
-    this.node.Rot.Y = this.rotRange.min;
+    this.init_direction = self.direction.clone();
 
     this.isShooting = true;
 
@@ -31,9 +31,14 @@ function EnemyTower(name) {
     this.updateDirection = function () {
         var mat = new CL3D.Matrix4(true);
         mat.setRotationDegrees(self.node.Rot);
-        self.direction = new CL3D.Vect3d(0, 0, 1);
+        self.direction = self.init_direction.clone();
         mat.rotateVect(self.direction);
     }
+    
+    this.updateDirection();
+    this.init_direction = self.direction.clone();
+
+    this.node.Rot.Y = this.rotRange.min;
 
     this.gotShot = function (shooter, bullet) {
         if (shooter == player ) {
