@@ -20,7 +20,7 @@ var gameover = false;
 
 var playerCoins = 0;
 var playerStars = 0;
-var playerLives = 3;
+var playerLives = 5;
 
 var screenWidth = 1024, screenHeight = 768;
 document.body.style.overflow = "hidden";
@@ -43,6 +43,8 @@ function update() {
             levelStartTime = new Date().getTime();
             if(levels[curLevel].power) setTimeout(castEvilSpell, levels[curLevel].power)
             currentChatPos = 0;
+            paused = true;
+            setTimeout(function () { paused = false; }, 1000);
         }
         chatUpdated = false;
     }
@@ -127,6 +129,7 @@ function initLevel() {
     //Level specific stuff here
     player.speed = levels[curLevel].speed;
     player.witchDPS = levels[curLevel].witch;
+    player.health += 20;
     levelTimer = levels[curLevel].time;
 }
 
@@ -195,7 +198,7 @@ function nextLevel() {
 
 function restartGame() {
     playerLives = 3;
-    curLevel = 2;
+    curLevel = 0;
     chatUpdated = true;
     resetKeyboard();
     loading = true;
@@ -219,8 +222,8 @@ function unCastEvilSpell() {
 function castEvilSpell() {
     hud.chatting("Avoiiding alll myy traapss I seeee... ", "witch.png");
     setTimeout(hud.chatting, 1700, "HOW DO YOU LIKE THIS?", "witch.png");
-    setTimeout(hud.resetChat, 3000);
-    setTimeout(actuallyCastIt, 2000);
+    setTimeout(hud.resetChat, 4000);
+    setTimeout(actuallyCastIt, 3000);
 }
 function actuallyCastIt() {
     for (var i = airstreams.length - 1; i >= 0; i--) {
