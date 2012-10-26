@@ -15,7 +15,7 @@ function Airship(name) {
     self.toTurn = false;
     this.curStreamIndex = 1;
 
-    this.health = 100;
+    this.health = playerMaxhealth;
     this.mana = 100;
     this.lastManaUpdate = 0.0;
     this.stars = 0;

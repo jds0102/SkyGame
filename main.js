@@ -21,6 +21,9 @@ var gameover = false;
 var playerCoins = 0;
 var playerStars = 0;
 var playerLives = 5;
+var playerMaxhealth = 100;
+
+var light1, light2;
 
 var screenWidth = 1024, screenHeight = 768;
 document.body.style.overflow = "hidden";
@@ -123,13 +126,17 @@ engine.getRenderer().OnChangeMaterial = function (mattype) {
     if (renderer && mattype == portal.portalShaderType) {
         portal.update();
     }
+    else if (renderer && mattype == airstreams[0].shaderType) {
+        for (var i = airstreams.length - 1; i >= 0; i--) {
+            airstreams[i].update();
+        }
+    }
 };
 
 function initLevel() {
     //Level specific stuff here
     player.speed = levels[curLevel].speed;
     player.witchDPS = levels[curLevel].witch;
-    player.health += 20;
     levelTimer = levels[curLevel].time;
 }
 
@@ -137,8 +144,12 @@ function initLevel() {
 engine.OnLoadingComplete = function () {
     //context2d = document.getElementById('2dcanvas').getContext('2d');
     //chat("witch", "some text");
+    
     scene = engine.getScene();
     if (scene) {
+        light1 = new CL3D.LightSceneNode();
+        light2 = new CL3D.LightSceneNode();
+
         hideSceneObjects();
         initWorld();
         initLevel();
@@ -159,8 +170,7 @@ engine.OnLoadingComplete = function () {
         camAnimator.lookAt(player.node.Pos);
 
 
-        light1 = new CL3D.LightSceneNode();
-        light2 = new CL3D.LightSceneNode();
+
         scene.getActiveCamera().addChild(light1);
         scene.getActiveCamera().addChild(light2);
         //scene.getRootSceneNode().addChild(light);
@@ -186,6 +196,7 @@ function restartLevel() {
 
 function nextLevel() {
     curLevel++;
+    playerMaxhealth += 20;
     if (curLevel < levels.length-1) {
         chatUpdated = true;
         resetKeyboard();

@@ -40,12 +40,12 @@ function Asteroid(name, position) {
     this.gotShot = function (shooter, bullet) {
         //alert(self.destroyable);
         if (shooter == player && self.destroyable) {
-            self.health -= 20;            
+            self.health -= 30;            
         }
     }
 
     this.pulseHit = function () {
-        self.health -= 50;     
+        self.health -= 75;     
     }
 
 	//this.clickAnimator = new CL3D.AnimatorOnClick(scene, engine, this.onClick);

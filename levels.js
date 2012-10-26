@@ -127,5 +127,5 @@ var gameoverChat =
 var cost = {
     'coin': 20,
     'slow': 15,
-    'pulse': 15
+    'pulse': 0
 };

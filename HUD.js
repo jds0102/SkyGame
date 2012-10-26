@@ -175,7 +175,7 @@ function HUD() {
 	personBackground.setShowImage(engine.getTextureManager().getTexture("personBackgrd.png", true));
 
 	this.update = function () {
-	    self.healthBar.set2DPosition(7.5, 27.5, (player.health * 1.5), 25);
+	    self.healthBar.set2DPosition(7.5, 27.5, (player.health / playerMaxhealth * 150), 25);
 	    self.manaBar.set2DPosition(7.5, 87.5, (player.mana * 1.5), 25);
 	    self.coinCount.setText(playerCoins + "");
 	    self.starCount.setText(playerStars + "");
