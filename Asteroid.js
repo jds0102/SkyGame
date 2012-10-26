@@ -6,7 +6,7 @@ function Asteroid(name, position) {
     this.destroyable = true;
     this.isMoving = true;
     this.init_Pos = this.node.Pos;
-    this.health = 100;
+    this.health = 500;
     this.theta = 0;
     this.oscilatingRange = 15;
     for (var i = airstreams.length - 1; i >= 0; i--) {
@@ -30,24 +30,22 @@ function Asteroid(name, position) {
     this.update = function () {
         self.theta += 0.03;
         self.node.Pos = self.init_Pos.add(self.direction.multiplyWithScal(this.oscilatingRange * Math.sin(self.theta)));
+        if (self.health <= 0) {
+            scene.getRootSceneNode().removeChild(self.node);
+            self.node.Visible = false;
+            asteroids.splice(asteroids.indexOf(self), 1);
+        }
     }
 
     this.gotShot = function (shooter, bullet) {
         //alert(self.destroyable);
         if (shooter == player && self.destroyable) {
-            self.health -= 20;
-            if (self.health <= 0) {
-                scene.getRootSceneNode().removeChild(self.node);
-                self.node.Visible = false;
-                asteroids.splice(asteroids.indexOf(self), 1);
-            }
+            self.health -= 20;            
         }
     }
 
     this.pulseHit = function () {
-        scene.getRootSceneNode().removeChild(self.node);
-        self.node.Visible = false;
-        asteroids.splice(asteroids.indexOf(self), 1);
+        self.health -= 50;     
     }
 
 	//this.clickAnimator = new CL3D.AnimatorOnClick(scene, engine, this.onClick);

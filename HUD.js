@@ -61,7 +61,7 @@ function HUD() {
 	manaBar.setShowBackgroundColor(true, CL3D.createColor(150, 25, 25, 255));
 
 	//Attacks and when they appear on each level
-	if (curLevel >= 0) {
+	if (curLevel > 0) {
 	    attack1 = new CL3D.Overlay2DSceneNode(engine);
 	    scene.getRootSceneNode().addChild(attack1);
 	    attack1.set2DPosition(5, 200, 90, 90);
@@ -177,8 +177,8 @@ function HUD() {
 	this.update = function () {
 	    self.healthBar.set2DPosition(7.5, 27.5, (player.health * 1.5), 25);
 	    self.manaBar.set2DPosition(7.5, 87.5, (player.mana * 1.5), 25);
-	    self.coinCount.setText(player.coins + "");
-	    self.starCount.setText(player.stars + "");
+	    self.coinCount.setText(playerCoins + "");
+	    self.starCount.setText(playerStars + "");
 	    var timeToDisplay = Math.floor(levelTimer - ((new Date().getTime() - levelStartTime) / 1000));
 	    var decimalToDisplay = 1000 - ((new Date().getTime() - levelStartTime) % 1000);
 	    if (decimalToDisplay >= 100) {

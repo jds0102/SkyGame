@@ -1,4 +1,4 @@
-function Airship(name, startCoins) {	
+function Airship(name) {	
     var self = this;
     this.node = scene.getSceneNodeFromName(name); //.createClone(scene.getSceneNodeFromName(name).getParent());
 	this.node.Visible = true;
@@ -19,7 +19,6 @@ function Airship(name, startCoins) {
     this.mana = 100;
     this.lastManaUpdate = 0.0;
     this.stars = 0;
-    this.coins = startCoins;
     this.curPulse = null;
 
     this.witchDPS = 0.3;
@@ -69,21 +68,21 @@ function Airship(name, startCoins) {
             self.mana -= 6;
         }
 
-        if (KB.isKeyDown['1'] && player.node && self.coins >= cost['coin'] && self.invunrable == false) {
+        if (KB.isKeyDown['1'] && player.node && playerCoins >= cost['coin'] && self.invunrable == false) {
             self.invunrable = true;
-            self.coins -= cost['coin'];
+            playerCoins -= cost['coin'];
             self.shield.Visible = true;
             setTimeout(self.resetInvulnerability, 5000);
         }
 
-        if (KB.isKeyDown['2'] && player.node && self.coins >= cost['slow']) {
-            self.coins -= cost['slow'];
+        if (KB.isKeyDown['2'] && player.node && playerCoins >= cost['slow']) {
+            playerCoins -= cost['slow'];
             isSlowTime = true;
             setTimeout(function () { isSlowTime = false; }, 3000);
         }
 
-        if (KB.isKeyDown['3'] && player.node && self.coins >= cost['pulse'] && self.curPulse == null) {
-            self.coins -= cost['pulse'];
+        if (KB.isKeyDown['3'] && player.node && playerCoins >= cost['pulse'] && self.curPulse == null) {
+            playerCoins -= cost['pulse'];
             self.curPulse = new Pulse(self.node.Pos);
         }
 
@@ -145,9 +144,9 @@ function Airship(name, startCoins) {
                 } else if (collectibles[i].type == "mana") {
                     self.increaseMana(10);
                 } else if (collectibles[i].type == "star") {
-                    self.stars++;
+                    playerStars++;
                 } else if (collectibles[i].type == "coin") {
-                    self.coins+=5;
+                    playerCoins+=5;
                 }
                 collectibles[i].node.Visible = false;
             }

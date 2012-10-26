@@ -62,7 +62,7 @@ function initWorld() {
     enemies = [];
     shootables = new Array();
 
-	player = new Airship(AIRSHIP, playerCoins);
+	player = new Airship(AIRSHIP);
 
 	// enemy = new EnemyTower();
 // 	enemies.push(enemy);

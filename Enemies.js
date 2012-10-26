@@ -1,10 +1,10 @@
-function EnemyTower() {
+function EnemyTower(name) {
     var self = this;
-    this.node = scene.getSceneNodeFromName('etower').createClone(scene.getSceneNodeFromName('ship').getParent());
+    this.node = scene.getSceneNodeFromName(name).createClone(scene.getSceneNodeFromName(name).getParent());
     scene.getRootSceneNode().addChild(this.node);
     this.node.Visible = true;
     this.type = "ETower";
-    this.node.Pos = new CL3D.Vect3d(50, 0, 50);
+    //this.node.Pos = new CL3D.Vect3d(50, 0, 50);
     this.node.scale = new CL3D.Vect3d(0.5, 0.5, 0.5);
 
     this.rotRange = { min : 10, max : 20};

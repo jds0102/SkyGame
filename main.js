@@ -1,7 +1,7 @@
 //var engine = startCopperLichtFromFile('3darea', 'copperlichtdata/game_scene.ccbjs');
 var curLevel = 0;
-var engine = new CL3D.CopperLicht('3darea', false, 60,false); 
-	engine.load('copperlichtdata/'+levels[0].data);
+var engine = new CL3D.CopperLicht('3darea', false, 60,false);
+engine.load('copperlichtdata/' + levels[curLevel].data);
 var camera, camAnimator, light;
 var scene;
 var paused = false;
@@ -19,6 +19,7 @@ var wonLevel = false;
 var gameover = false;
 
 var playerCoins = 0;
+var playerStars = 0;
 var playerLives = 3;
 
 var screenWidth = 1024, screenHeight = 768;
@@ -40,7 +41,7 @@ function update() {
             //Set level specific things here
             currentlyChatting = false;
             levelStartTime = new Date().getTime();
-            setTimeout(castEvilSpell, levels[curLevel].power)
+            if(levels[curLevel].power) setTimeout(castEvilSpell, levels[curLevel].power)
             currentChatPos = 0;
         }
         chatUpdated = false;
@@ -87,7 +88,6 @@ function update() {
         }
     }
     if (currentlyChatting || win || lostLevel || wonLevel || gameover) return;
-    
     //if (isSlowTime) alert("");
     if (!isSlowTime || frame % slowRatio == 0) {
         for (var i = 0; i < asteroids.length; i++) {
@@ -95,21 +95,24 @@ function update() {
         }
         player.update();
         updateWorld();
-        //enemy.update();
+        for (var i=0; i< enemies.length; i++)
+            enemies[i].update();
         updateBullets();
         updateForCollisions();
     }
 	var camPos = player.node.Pos.clone();
 	shipLookAt = player.direction.clone();
 	shipLookAt.normalize();
-	shipLookAt.multiplyThisWithScal(15);
-	camPos.substractFromThis(shipLookAt);
-	camPos.Y += 21;
+	shipLookAt.multiplyThisWithScal(10);
+	camPos.addToThis(player.direction.multiplyWithScal(-10));
+    camPos.addToThis(new CL3D.Vect3d(0,20,0));
+	//camPos.substractFromThis(shipLookAt);
 	scene.getActiveCamera().Pos = camPos;
 	//light.Pos = scene.getActiveCamera().Pos;
     //camAnimator.lookAt(player.node.Pos);
-	camAnimator.lookAt(player.node.Pos.add(new CL3D.Vect3d(0, 15, 0)));
-	playerCoins = player.coins;
+	//camAnimator.lookAt(player.node.Pos.add(new CL3D.Vect3d(0, 10, 0)));
+	camAnimator.lookAt(player.node.Pos.add(player.direction.multiplyWithScal(10)));
+	//camAnimator.lookAt(player.node.Pos);
 	
 }
 
@@ -117,7 +120,6 @@ engine.getRenderer().OnChangeMaterial = function (mattype) {
     var renderer = engine.getRenderer();
     if (renderer && mattype == portal.portalShaderType) {
         portal.update();
-
     }
 };
 
@@ -193,12 +195,13 @@ function nextLevel() {
 
 function restartGame() {
     playerLives = 3;
-    playerCoins = 0;
-    curLevel = 0;
+    curLevel = 2;
     chatUpdated = true;
     resetKeyboard();
     loading = true;
     engine.load('copperlichtdata/' + levels[curLevel].data);
+    playerCoins = 0;
+    playerStars = 0;
 }
 
 function winGame() {

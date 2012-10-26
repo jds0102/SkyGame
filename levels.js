@@ -5,22 +5,22 @@ var level = {
     speed: 1.0,
     time: 30,
     witch: 0.3,
-    power: 2000,
+    power: null,
     chat: 
     [['Click to hear what I have to say.', 'wizard.png'],
-   // ['We must outrun the evil witch!', 'wizard.png'],
-   // ['We have stolen her Crystal Ball and she is after us.', 'wizard.png'],
-//    ['I will get you!', 'witch.png'],
-//    ['I have created airstreams in the sky,', 'wizard.png'],
-//    ['which will carry our balloon home.', 'wizard.png'],
-//    ['She has disabled our propeller,', 'wizard.png'],
-//    ['so we will have to rely on the airstreams for thrust.', 'wizard.png'],
-//    ['Also, outside of the airstream she can attack our balloon.', 'wizard.png'],
-//    ['HA HA HA HA', 'witch.png'], ['Use the arrow keys to shift left and right,', 'wizard.png'],
-//    ['and use \'Q\' and \'E\' to rotate the balloon.', 'wizard.png'],
-//    ['Spacebar will fire our guns to destoy asteroids in the way.', 'wizard.png'],
-//    ['I have created a portal up ahead,', 'wizard.png'],
-//    ['get us there befor time runs out!', 'wizard.png'],
+    ['We must outrun the evil witch!', 'wizard.png'],
+    ['We have stolen her Crystal Ball and she is after us.', 'wizard.png'],
+    ['I will get you!', 'witch.png'],
+    ['I have created airstreams in the sky,', 'wizard.png'],
+    ['which will carry our balloon home.', 'wizard.png'],
+    ['She has disabled our propeller,', 'wizard.png'],
+    ['so we will have to rely on the airstreams for thrust.', 'wizard.png'],
+    ['Also, outside of the airstream she can attack our balloon.', 'wizard.png'],
+    ['HA HA HA HA', 'witch.png'], ['Use the arrow keys to shift left and right,', 'wizard.png'],
+    ['and use \'Q\' and \'E\' to rotate the balloon.', 'wizard.png'],
+    ['Spacebar will fire our guns to destoy asteroids in the way.', 'wizard.png'],
+    ['I have created a portal up ahead,', 'wizard.png'],
+    ['get us there befor time runs out!', 'wizard.png'],
     ['Click to get started.', 'wizard.png']]
 }
 levels.push(level);
@@ -28,9 +28,9 @@ levels.push(level);
 var level = {
     data: 'level1.ccbjs',
     speed: 1.0,
-    time: 30,
+    time: 45,
     witch: 0.3,
-    power: 5000,
+    power: null,
     chat:
     [['Whew, we made it!', 'wizard.png'], 
     ['Not so fast!', 'witch.png'], 
@@ -40,6 +40,25 @@ var level = {
     ['Each time you use a power it will cost us some coins.', 'wizard.png'], 
     ['Pressing \'1\' will provide us with a temporary shield', 'wizard.png'], 
     ['and pressing \'2\' will slow down the objects around us.', 'wizard.png'], 
+    ['Use these powers wisely!', 'wizard.png'], ['Here we go!', 'wizard.png']]
+}
+levels.push(level);
+
+var level = {
+    data: 'level2.ccbjs',
+    speed: 1.0,
+    time: 45,
+    witch: 0.35,
+    power: 10000,
+    chat:
+    [['Whew, we made it!', 'wizard.png'],
+    ['Not so fast!', 'witch.png'],
+    ['I am more powerful than you think', 'witch.png'],
+    ['This may be a little harder than I anticipated.', 'wizard.png'],
+    ['I am activating some of the balloons powers.', 'wizard.png'],
+    ['Each time you use a power it will cost us some coins.', 'wizard.png'],
+    ['Pressing \'3\' will provide us with a pulse to destroy...', 'wizard.png'],
+    ['everything in our path.', 'wizard.png'],
     ['Use these powers wisely!', 'wizard.png'], ['Here we go!', 'wizard.png']]
 }
 levels.push(level);
@@ -64,7 +83,7 @@ var gameoverChat =
     ["You are out of lives. Click OK to try again!", 'wizard.png'];
 
 var cost = {
-    'coin': 0,
-    'slow': 0,
-    'pulse': 0
+    'coin': 20,
+    'slow': 15,
+    'pulse': 15
 };
